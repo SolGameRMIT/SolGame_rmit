@@ -12,7 +12,7 @@ public class PathFinding : MonoBehaviour
 {
     PathManager pathManager;
     worldGrid grid;
-    private int NORMAL_STRAIGHT_COST = 10, NORMAL_DIAGONAl_COST = 14, OBSTACLE_STRAIGHT_COST = 20,  OBSTACLE_DIAGONAL_COST = 28;
+    private int NORMAL_STRAIGHT_COST = 10, NORMAL_DIAGONAl_COST = 14, OBSTACLE_STRAIGHT_COST = 20, OBSTACLE_DIAGONAL_COST = 28;
     public LayerMask unwalkableMask;
     private void Awake()
     {
@@ -80,13 +80,26 @@ public class PathFinding : MonoBehaviour
         }
         path.Reverse();
         List<Vector3> pathList = new List<Vector3>();
-        foreach(Node node in path)
+        foreach (Node node in path)
         {
             pathList.Add(node.worldPostion);
         }
-        if(smootherPath)
-            return GetSmootherPath(path);
-            // return SimplifyPath(path);
+        if (smootherPath)
+        {
+            try
+            {
+                return GetSmootherPath(path);
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
+
+
+
+
         else
             return pathList;
     }
@@ -95,16 +108,16 @@ public class PathFinding : MonoBehaviour
     {
         List<Vector3> wayPoints = new List<Vector3>();
         Vector2 directionOld = Vector2.zero;
-        for(int i = 1; i < path.Count; i++)
+        for (int i = 1; i < path.Count; i++)
         {
             Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
-            if(directionNew != directionOld)
+            if (directionNew != directionOld)
             {
                 wayPoints.Add(path[i].worldPostion);
             }
             else
             {
-                wayPoints[wayPoints.Count-1] = path[i].worldPostion;
+                wayPoints[wayPoints.Count - 1] = path[i].worldPostion;
             }
             directionOld = directionNew;
         }
@@ -125,7 +138,7 @@ public class PathFinding : MonoBehaviour
             //Draw debug lines for pathfinding before smoothing
             for (int i = 0; i < pathInVec3.Count - 1; i++)
             {
-                UnityEngine.Debug.DrawLine(pathInVec3[i], pathInVec3[i + 1],Color.white);
+                UnityEngine.Debug.DrawLine(pathInVec3[i], pathInVec3[i + 1], Color.white);
             }
 
             //Path smoothing
@@ -176,15 +189,15 @@ public class PathFinding : MonoBehaviour
                                 Vector3 n = new Vector3(Mathf.Round(P.x), P.y, Mathf.Round(P.z));
                                 List<Node> nodeList = grid.GetNeighbours(grid.NodeFromWorldPoint(n));
                                 bool existed = false;
-                                foreach(Node node in nodeList)
+                                foreach (Node node in nodeList)
                                 {
-                                    if(node.costMultiplier != Node.initCostMultiplier)
+                                    if (node.costMultiplier != Node.initCostMultiplier)
                                     {
                                         existed = true;
                                         break;
                                     }
                                 }
-                                if(existed)
+                                if (existed)
                                 {
                                     pathSmoothing.Add(pathInVec3[j - 1]);
                                     currIdx = j - 1;
@@ -192,9 +205,9 @@ public class PathFinding : MonoBehaviour
                                 }
                             }
                         }
-                            
-                            
-                        
+
+
+
                     }
                 }
             }
@@ -216,16 +229,16 @@ public class PathFinding : MonoBehaviour
         int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
         int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
         int maxCostMultiplier = 0;
-        foreach(Node n in grid.GetNeighbours(nodeA))
+        foreach (Node n in grid.GetNeighbours(nodeA))
         {
-            if(n.costMultiplier > maxCostMultiplier)
+            if (n.costMultiplier > maxCostMultiplier)
             {
                 maxCostMultiplier = n.costMultiplier;
             }
         }
-        foreach(Node n in grid.GetNeighbours(nodeB))
+        foreach (Node n in grid.GetNeighbours(nodeB))
         {
-            if(n.costMultiplier > maxCostMultiplier)
+            if (n.costMultiplier > maxCostMultiplier)
             {
                 maxCostMultiplier = n.costMultiplier;
             }
@@ -259,6 +272,6 @@ public class PathFinding : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        
+
     }
 }

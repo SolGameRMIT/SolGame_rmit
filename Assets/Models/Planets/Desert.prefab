@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 3298155403312826577}
   - component: {fileID: 2802976802441985560}
   - component: {fileID: -5753604245810421754}
-  m_Layer: 0
+  - component: {fileID: 6056156346027560086}
+  m_Layer: 6
   m_Name: Desert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,3 +111,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c1c02ad2ea622498d0381d25bffef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reverse: 0
+--- !u!54 &6056156346027560086
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889334168561990669}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

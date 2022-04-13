@@ -11,7 +11,7 @@ public class Boundary
 public class PlayerController : MonoBehaviour
 {
     Rigidbody m_Rigidbody;
-
+    Spanwer m_Spanwer;
     private float nextFile;
     public float fileRate;
 
@@ -112,17 +112,25 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButton("Fire1") && Time.time > nextFile)
         {
             nextFile = Time.time + fileRate;
-            Debug.Log("father shotSpawn.transform.position " + shotSpawn.transform.position);
+            //Debug.Log("father shotSpawn.transform.position " + shotSpawn.transform.position);
             GameObject temp = Instantiate(shot, shotSpawn.transform.position, Quaternion.Euler(0f, mouseAngle, transform.rotation.z));
             Destroy(temp, 10f);
             playShot();
         }
 
         //Keyboard inputs
+        if (Input.GetKey(KeyCode.R) && gameController.canSaveSmallShip)
+        {
+            gameController.canSaveSmallShip = false;
+            m_Spanwer.isMoveForwarTarget = true;
+        }
+
+
+        //Keyboard inputs
         if (Input.GetKey(KeyCode.Space) && Time.time > nextFile)
         {
             nextFile = Time.time + fileRate;
-            Debug.Log("father shotSpawn.transform.position " + shotSpawn.transform.position);
+            //Debug.Log("father shotSpawn.transform.position " + shotSpawn.transform.position);
             GameObject temp = Instantiate(shot, shotSpawn.transform.position, Quaternion.AngleAxis(angle * Mathf.Rad2Deg - 90, Vector3.down));
             Destroy(temp, 5f);
             playShot();
@@ -134,7 +142,7 @@ public class PlayerController : MonoBehaviour
             InvincibleTime -= Time.deltaTime;
             if(InvincibleTime < 0)
             {
-                Debug.Log("End Invincibility");
+                //Debug.Log("End Invincibility");
                 Invincible = false;
             }
         }
@@ -179,6 +187,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void setBoidsSpawner(Spanwer spanwer)
+    {
+        this.m_Spanwer = spanwer;
+    }
+
     private void OnDestroy()
     {
         gameController.GameOver();
@@ -197,7 +210,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Start invincibility");
+                //Debug.Log("Start invincibility");
 
                 // Start invincibility
                 Invincible = true;
@@ -213,7 +226,7 @@ public class PlayerController : MonoBehaviour
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, Maximumhealth);
-        Debug.Log("Ship Health: " + currentHealth);
+        //Debug.Log("Ship Health: " + currentHealth);
         
     }
 
@@ -280,6 +293,16 @@ public class PlayerController : MonoBehaviour
         newAudio.volume = vol;
         return newAudio;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.name.Contains("Boid") && m_Spanwer.isMoveForwarTarget)
+        {
+            Destroy(other.gameObject);
+            gameController.addScore(1);
+        }
+    }
+
 
     private class MonoSub : MonoBehaviour
     {

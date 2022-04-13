@@ -43,6 +43,7 @@ public class ProceduralGeneration : MonoBehaviour
     public GameObject weaponUpgrade1;
     public GameObject weaponUpgrade2;
     public GameObject weaponUpgrade3;
+    public GameObject[] asteroids;
     private List<GameObject> planets = new List<GameObject>();
     private List<GameObject> healthUpgrades = new List<GameObject>();
     private List<GameObject> weaponUpgrades = new List<GameObject>();
@@ -55,6 +56,8 @@ public class ProceduralGeneration : MonoBehaviour
     private float bigShipY = 6.25f; //1.1f
     private float asteroidFieldZ = (19.84f - 15.18f);
     private float asteroidFieldX = (35.08f - 30.91f);
+    private float asteroidX = 4f;
+    private float asteroidZ = 4f;
     private float sateliteX = (33.22f - 32.25f);
     private float sateliteZ = (18.00f - 16.91f);
     private float powerupX = (33.54f - 33.02f);
@@ -65,12 +68,13 @@ public class ProceduralGeneration : MonoBehaviour
     private float emptyZ = 1f;
 
     //RNG values
-    public int emptySpace = 50;
-    public int planetSpawn = 25;
-    public int shipSpawn = 25;
-    public int asteroidSpawn = 2;
-    public int sateliteSpawn = 2;
-    public int powerupSpawn = 10;
+    private int emptySpace = 65;
+    private int planetSpawn = 10;
+    private int shipSpawn = 5;
+    private int asteroidFieldSpawn = 5;
+    private int asteroidSpawn = 20;
+    private int sateliteSpawn = 5;
+    private int powerupSpawn = 10;
 
     private int planetRNG;
 
@@ -142,9 +146,9 @@ public class ProceduralGeneration : MonoBehaviour
         currPos = leftPos;
 
         //make sure the position is away from the wall
-        currPos.x = leftPos.x + leftDimensions.x; //* 2f;
+        currPos.x = leftPos.x + leftDimensions.x * 1.1f; //* 2f;
         currPos.y = leftPos.y;
-        currPos.z = topPos.z + topDimensions.z;
+        currPos.z = topPos.z - topDimensions.z * 1.1f;
 
         
 
@@ -200,7 +204,7 @@ public class ProceduralGeneration : MonoBehaviour
             //spawn ship
             rng = Random.Range(1, 100);
            // Debug.Log("Rng before ship: " + rng);
-            Debug.Log("rng: " + rng + "ship: " + shipSpawn);
+            //Debug.Log("rng: " + rng + "ship: " + shipSpawn);
             if (!check && rng <= shipSpawn)
             {
                 //Debug.Log("Position before ship: " + currPos);
@@ -209,7 +213,7 @@ public class ProceduralGeneration : MonoBehaviour
                 //Debug.Log("CurrX : " + currPos.x + " + shipX: " + bigShipX);
                 if (bigShipZ > maxPos.z)
                 {
-                    Debug.Log("ShipZ bigger than maxPos");
+                    //Debug.Log("ShipZ bigger than maxPos");
                     currPos.z -= bigShipZ * 0.5f;
                     maxPos.z = bigShipZ;
                 }
@@ -222,11 +226,38 @@ public class ProceduralGeneration : MonoBehaviour
                 
             }
 
+            //spawn asteroid
+            rng = Random.Range(1, 100);
+            // Debug.Log("Rng before ship: " + rng);
+            //Debug.Log("rng: " + rng + "asteroid: " + asteroidSpawn);
+            if (!check && rng <= asteroidSpawn)
+            {
+                //Debug.Log("Position before ship: " + currPos);
+
+                currPos.x += asteroidX;
+                //Debug.Log("CurrX : " + currPos.x + " + shipX: " + bigShipX);
+                if (asteroidZ > maxPos.z)
+                {
+                    //Debug.Log("ShipZ bigger than maxPos");
+                    currPos.z -= asteroidZ * 0.5f;
+                    maxPos.z = asteroidZ;
+                }
+                // Debug.Log("Spawned ship: " + currPos);
+                if (currPos.z * 2 > stopAlgo.z && currPos.x * 1.1 <= stopAlgo.x)
+                {
+                    int rng2 = Random.Range(0, asteroids.Length);
+                    print(asteroids[rng2]);
+                    Instantiate(asteroids[rng2], currPos, Quaternion.identity);
+                }
+                check = true;
+
+            }
+
             //spawn asteroid field
             rng = Random.Range(1, 100);
             // Debug.Log("Rng before ship: " + rng);
-            Debug.Log("rng: " + rng + "asteroid: " + asteroidSpawn);
-            if (!check && rng <= asteroidSpawn)
+            //Debug.Log("rng: " + rng + "asteroid: " + asteroidFieldSpawn);
+            if (!check && rng <= asteroidFieldSpawn)
             {
                 //Debug.Log("Position before ship: " + currPos);
 
@@ -234,7 +265,7 @@ public class ProceduralGeneration : MonoBehaviour
                 //Debug.Log("CurrX : " + currPos.x + " + shipX: " + bigShipX);
                 if (asteroidFieldZ > maxPos.z)
                 {
-                    Debug.Log("ShipZ bigger than maxPos");
+                    //Debug.Log("ShipZ bigger than maxPos");
                     currPos.z -= asteroidFieldZ * 0.5f;
                     maxPos.z = asteroidFieldZ;
                 }
@@ -250,7 +281,7 @@ public class ProceduralGeneration : MonoBehaviour
             //satelite spawn
             rng = Random.Range(1, 100);
             // Debug.Log("Rng before ship: " + rng);
-            Debug.Log("rng: " + rng + "Satelite: " + sateliteSpawn);
+            //Debug.Log("rng: " + rng + "Satelite: " + sateliteSpawn);
             if (!check && rng <= sateliteSpawn)
             {
                 //Debug.Log("Position before ship: " + currPos);
@@ -259,7 +290,7 @@ public class ProceduralGeneration : MonoBehaviour
                 //Debug.Log("CurrX : " + currPos.x + " + shipX: " + bigShipX);
                 if (sateliteZ > maxPos.z)
                 {
-                    Debug.Log("ShipZ bigger than maxPos");
+                    //Debug.Log("ShipZ bigger than maxPos");
                     currPos.z -= sateliteZ * 0.5f;
                     maxPos.z = sateliteZ;
                 }
@@ -274,7 +305,7 @@ public class ProceduralGeneration : MonoBehaviour
             //power up spawn
             rng = Random.Range(1, 100);
             // Debug.Log("Rng before ship: " + rng);
-            Debug.Log("rng: " + rng + "Power up: " + powerupSpawn);
+            //Debug.Log("rng: " + rng + "Power up: " + powerupSpawn);
             if (!check && rng <= powerupSpawn)
             {
                 //Debug.Log("Position before ship: " + currPos);
@@ -283,7 +314,7 @@ public class ProceduralGeneration : MonoBehaviour
                 //Debug.Log("CurrX : " + currPos.x + " + shipX: " + bigShipX);
                 if (powerupZ > maxPos.z)
                 {
-                    Debug.Log("ShipZ bigger than maxPos");
+                    //Debug.Log("ShipZ bigger than maxPos");
                     currPos.z -= powerupZ * 0.5f;
                     maxPos.z = powerupZ;
                 }
@@ -299,7 +330,7 @@ public class ProceduralGeneration : MonoBehaviour
             //health upgrades
             rng = Random.Range(1, 100);
             // Debug.Log("Rng before ship: " + rng);
-            Debug.Log("rng: " + rng + "Health Upgrades: " + powerupSpawn);
+            //Debug.Log("rng: " + rng + "Health Upgrades: " + powerupSpawn);
             if (!check && rng <= powerupSpawn)
             {
                 //Debug.Log("Position before ship: " + currPos);
@@ -307,7 +338,7 @@ public class ProceduralGeneration : MonoBehaviour
                 //Debug.Log("CurrX : " + currPos.x + " + shipX: " + bigShipX);
                 if (powerupZ > maxPos.z)
                 {
-                    Debug.Log("ShipZ bigger than maxPos");
+                    //Debug.Log("ShipZ bigger than maxPos");
                     currPos.z -= powerupZ * 0.5f;
                     maxPos.z = powerupZ;
                 }
@@ -323,11 +354,11 @@ public class ProceduralGeneration : MonoBehaviour
             //if we have reached the wall
             if (currPos.x + maxPos.x >= stopAlgo.x)
             {
-                Debug.Log("We have hit a wall");
+                //Debug.Log("We have hit a wall");
                 //check if we have any space on the bottom
-                if (currPos.z - maxPos.z < stopAlgo.z)
+                if (currPos.z - maxPos.z * 1.1 < stopAlgo.z)
                 {
-                    Debug.Log("we hit the bottom");
+                    //Debug.Log("we hit the bottom");
                     //if we don't have space, end the algo
                     algo = false;
                     break;
@@ -339,7 +370,7 @@ public class ProceduralGeneration : MonoBehaviour
                     currPos.z -= maxPos.z * 1.1f;
                 }
                 
-                currPos.x = leftPos.x + leftDimensions.x;
+                currPos.x = leftPos.x + leftDimensions.x * 1.1f;
                 
             }
             //if we haven't, continue to iterate to the right

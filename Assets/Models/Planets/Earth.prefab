@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 5891076793202507431}
   - component: {fileID: 1709927950625026248}
   - component: {fileID: 5347943994260506163}
-  m_Layer: 0
+  - component: {fileID: 7734280386505189080}
+  m_Layer: 6
   m_Name: Earth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,3 +114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c1c02ad2ea622498d0381d25bffef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reverse: 0
+--- !u!54 &7734280386505189080
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5331585953082624635}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3069297395577857203}
   - component: {fileID: 7123114125870412173}
   - component: {fileID: 434087832}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bolt1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 2751662184160464115}
   - component: {fileID: 4124873167065227590}
   - component: {fileID: 4472859910224260967}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerBlast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,8 +163,8 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.2
-  m_Height: 0.1
-  m_Direction: 0
+  m_Height: 3
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4472859910224260967
 MonoBehaviour:

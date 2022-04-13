@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6750764323368461227}
   - component: {fileID: 7394107935691012995}
   - component: {fileID: 624374105568347881}
-  m_Layer: 0
+  - component: {fileID: 3995214396571845100}
+  m_Layer: 6
   m_Name: Frozen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,3 +111,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c1c02ad2ea622498d0381d25bffef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reverse: 0
+--- !u!54 &3995214396571845100
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5013454637359159159}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

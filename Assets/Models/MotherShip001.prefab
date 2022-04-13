@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3309690}
   - component: {fileID: 2390444}
   - component: {fileID: 5043113431155582621}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,8 @@ GameObject:
   m_Component:
   - component: {fileID: 428508}
   - component: {fileID: -4422276618016762595}
-  m_Layer: 0
+  - component: {fileID: 2951964969743466508}
+  m_Layer: 6
   m_Name: MotherShip001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,3 +141,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reverse: 0
+--- !u!54 &2951964969743466508
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149556}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

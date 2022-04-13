@@ -5,7 +5,7 @@ using UnityEngine;
 public class Boid : MonoBehaviour
 {
     static public List<Boid> boids;
-
+    BoidSpawner boidSpawner;
     public Vector3 velocity;
     public Vector3 newVelocity;
     public Vector3 newPosition;
@@ -20,6 +20,13 @@ public class Boid : MonoBehaviour
     private void Awake()
     {
 
+        var _gameController = GameObject.Find("GameController");
+        if (_gameController != null)
+        {
+            boidSpawner = _gameController.GetComponent<BoidSpawner>();
+        }
+
+
         if (boids == null)
             boids = new List<Boid>();
 
@@ -27,14 +34,14 @@ public class Boid : MonoBehaviour
         boids.Add(this);
 
         // Place our boid in a random position
-        Vector3 randPos = Random.insideUnitSphere * BoidSpawner.S.spawnRadius;
+        Vector3 randPos = Random.insideUnitSphere * boidSpawner.spawnRadius;
         randPos.y = 1;
         this.transform.position = randPos;
 
 
         // Give them a random initial velocity
         velocity = Random.onUnitSphere;
-        velocity *= BoidSpawner.S.spawnVelcoty;
+        velocity *= boidSpawner.spawnVelcoty;
 
 
         Color randColor = Color.black;
@@ -57,15 +64,15 @@ public class Boid : MonoBehaviour
 
 
         Vector3 randVelocity = Random.onUnitSphere;
-        newVelocity += randVelocity * BoidSpawner.S.randomAmt;
+        newVelocity += randVelocity * boidSpawner.randomAmt;
 
         // Try move with a uniform pattern
         Vector3 neighbourVel = GetAverageVelocity(neighbours);
-        newVelocity += neighbourVel * BoidSpawner.S.velocityMatchingAmt;
+        newVelocity += neighbourVel * boidSpawner.velocityMatchingAmt;
 
         // Try move towards the same goal
         Vector3 neighbourCenterOffset = GetAveragePosition(neighbours) - this.transform.position;
-        newVelocity += neighbourCenterOffset * BoidSpawner.S.flockCenteringAmt;
+        newVelocity += neighbourCenterOffset * boidSpawner.flockCenteringAmt;
 
         // Avoid each other
         Vector3 dist;
@@ -73,13 +80,13 @@ public class Boid : MonoBehaviour
         {
             Vector3 averageCrashVec = GetAveragePosition(crashRisks);
             dist = averageCrashVec - this.transform.position;
-            newVelocity -= dist * BoidSpawner.S.crashAvoidanceAmt;
+            newVelocity -= dist * boidSpawner.crashAvoidanceAmt;
         }
 
         // Aim at the player, if they're alive!!!!
-        if (BoidSpawner.S.master)
+        if (boidSpawner.master)
         {
-            dist = BoidSpawner.S.master.transform.position - this.transform.position;
+            dist = boidSpawner.master.transform.position - this.transform.position;
             newVelocity += dist.normalized;
         }
 
@@ -88,13 +95,13 @@ public class Boid : MonoBehaviour
     private void LateUpdate()
     {
         // Update our boid's position based on the velocity we calculated
-        velocity = (1 - BoidSpawner.S.velocityLerpAmt) * velocity + BoidSpawner.S.velocityLerpAmt * newVelocity;
+        velocity = (1 - boidSpawner.velocityLerpAmt) * velocity + boidSpawner.velocityLerpAmt * newVelocity;
 
         // Check if we're above max velocity
-        if (velocity.magnitude > BoidSpawner.S.maxVelocity)
-            velocity = velocity.normalized * BoidSpawner.S.maxVelocity;
-        if (velocity.magnitude < BoidSpawner.S.minVelocity)
-            velocity = velocity.normalized * BoidSpawner.S.minVelocity;
+        if (velocity.magnitude > boidSpawner.maxVelocity)
+            velocity = velocity.normalized * boidSpawner.maxVelocity;
+        if (velocity.magnitude < boidSpawner.minVelocity)
+            velocity = velocity.normalized * boidSpawner.minVelocity;
 
         newPosition = this.transform.position + velocity * Time.deltaTime;
         newPosition.y = 0.0f;

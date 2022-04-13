@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4029248893787874}
   - component: {fileID: 33731582308257766}
   - component: {fileID: 23943327899518182}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: solar_plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4956838324547778}
   - component: {fileID: 33704892131865688}
   - component: {fileID: 23409389210958606}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: aluminum2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4471139398397712}
   - component: {fileID: 215083128718228960}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Reflection Probe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,9 @@ GameObject:
   - component: {fileID: 4874934499113314}
   - component: {fileID: 1363397442967680008}
   - component: {fileID: 4253356291803761588}
-  m_Layer: 0
+  - component: {fileID: -7960734770468226109}
+  - component: {fileID: -7135668861957304647}
+  m_Layer: 6
   m_Name: satelie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,6 +294,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 9, y: 5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &-7960734770468226109
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412742708598286}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &-7135668861957304647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412742708598286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f00111389e54132469e5ba2ff14464c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reverse: 0
 --- !u!1 &1577956311297630
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,7 +334,7 @@ GameObject:
   - component: {fileID: 4907759081355014}
   - component: {fileID: 33253082994058466}
   - component: {fileID: 23079352709549476}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: solar_plane1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +415,7 @@ GameObject:
   - component: {fileID: 4509361148145454}
   - component: {fileID: 33051399196714026}
   - component: {fileID: 23818969868791978}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: dish_etc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +496,7 @@ GameObject:
   - component: {fileID: 4894664100643180}
   - component: {fileID: 33784920321031842}
   - component: {fileID: 23148051150289594}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: aluminum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -546,7 +577,7 @@ GameObject:
   - component: {fileID: 4269143787043550}
   - component: {fileID: 33213666581433950}
   - component: {fileID: 23096765633642294}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: korpus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -627,7 +658,7 @@ GameObject:
   - component: {fileID: 4584980975421802}
   - component: {fileID: 33526043589803646}
   - component: {fileID: 23465514249043536}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ig1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

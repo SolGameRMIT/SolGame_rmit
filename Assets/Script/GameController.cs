@@ -9,18 +9,25 @@ public class GameController : MonoBehaviour
 {
     public GameObject RaceBDroid;
     public GameObject RaceADroid;
+    Spanwer spanwer;
     List<GameObject> RaceBDroidList = new List<GameObject>();
     List<GameObject> RaceADroidList = new List<GameObject>();
     GameObject ship;
     public PlayerController shipController;
 
-    int maxDroid = 3;
+
+    int litmitDroid = 5;
+    int maxDroid = 1;
     float DroidSpeed = 0.01f;
 
     int level = 1;
     public Vector3 spawnValue;
+    public int scoreToWin;
 
     int maxSpawnWaitTime = 5;
+
+    public bool canSaveSmallShip = false;
+
 
     //end state variables
     private Vector3 endPos;
@@ -30,12 +37,20 @@ public class GameController : MonoBehaviour
     public Text RestartText;
     private bool needRestart;
 
+    //random enemy spawn
+    private float barrierZTop = 5.20f;
+    private float barrierZBottom = -8.1f;
+    private float barrierXLeft = -7.4f;
+    private float barrierXRight = 11.5f;
+
     // Start is called before the first frame update
 
 
     //-------------------UIsetting start --------------------
 
     int score = 0;
+    public Text saveSmallShip;
+    public Text SmallShip;
     public Text scoreText;
     public Text gameTime;
     public Text gameLevel;
@@ -67,7 +82,8 @@ public class GameController : MonoBehaviour
         {
             shipController = ship.GetComponent<PlayerController>();
         }
-
+        spanwer = GetComponent<Spanwer>();
+        shipController.setBoidsSpawner(spanwer);
         endPos = ship.transform.position;
         endState = false;
     }
@@ -78,7 +94,7 @@ public class GameController : MonoBehaviour
     /// <returns></returns>
     IEnumerator spawnDroid()
     {
-
+        var count = 0;
         while (true)
         {
             if (isGameOver)
@@ -86,27 +102,43 @@ public class GameController : MonoBehaviour
                 yield return null;
             }
             // raceA spawn
-            if (RaceADroidList.Count < maxDroid * 3)
+
+            if (FindObjectsOfType<RaceA_FSMController>().Length < maxDroid)
             {
                 for (int i = 0; i < maxDroid; i++)
                 {
-                    Vector3 spawnPosition = new Vector3(Random.Range(-9, -6), 4, Random.Range(-5, 5));
+                    Vector3 spawnPosition = new Vector3(Random.Range(barrierXLeft, barrierXRight), 0, Random.Range(barrierZTop, barrierZBottom));
                     var raceA = Instantiate(RaceADroid, spawnPosition, Quaternion.identity);
+                    raceA.name = "raceA " + count.ToString();
+                    count++;
                     RaceADroidList.Add(raceA.gameObject);
                 }
             }
             // raceB spawn
-            if (RaceBDroidList.Count < maxDroid)
+            if (FindObjectsOfType<RaceB_FSMController>().Length < maxDroid)
             {
-                Vector3 spawnPosition = new Vector3(Random.Range(6, 9), 4, Random.Range(-3, -5));
+                Vector3 spawnPosition = new Vector3(Random.Range(barrierXLeft, barrierXRight), 0, Random.Range(barrierZTop, barrierZBottom));
                 var raceB = Instantiate(RaceBDroid, spawnPosition, Quaternion.identity);
+                raceB.name = "raceB " + count.ToString();
+                count++;
                 RaceBDroidList.Add(raceB.gameObject);
-
             }
+
+
+
             yield return new WaitForSeconds(Random.Range(2, maxSpawnWaitTime));
         }
 
 
+    }
+
+    public RaceA_FSMController GetRaceA()
+    {
+        if (FindObjectsOfType<RaceA_FSMController>().Length > 0)
+        {
+            return FindObjectsOfType<RaceA_FSMController>()[0];
+        }
+        return null;
     }
 
     public void RaceADroid_Destory(GameObject RaceADroid)
@@ -124,6 +156,8 @@ public class GameController : MonoBehaviour
         RestartCheck();
         if (isGameOver)
             return;
+        saveSmallShipCheck();
+        SmallShipCheck();
         gameTimeUpdate();
         gameLevelUpdate();
         LevelUpdate();
@@ -159,6 +193,22 @@ public class GameController : MonoBehaviour
         }
     }
 
+    void saveSmallShipCheck()
+    {
+        if (canSaveSmallShip && !spanwer.isMoveForwarTarget)
+        {
+            saveSmallShip.text = "Press R to save the smaller ship";
+        }
+        else
+        {
+            saveSmallShip.text = "";
+        }
+    }
+    void SmallShipCheck()
+    {
+        SmallShip.text = "Small Ship: "+ FindObjectsOfType<Boid_>().Length.ToString();
+    }
+
     void resetGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -166,7 +216,7 @@ public class GameController : MonoBehaviour
 
     public void updateScore()
     {
-        if (isGameOver)
+        if (isGameOver || scoreText == null)
             return;
         scoreText.text = string.Format("Score: {0}", score.ToString());
     }
@@ -179,7 +229,6 @@ public class GameController : MonoBehaviour
         {
             healthText.text = string.Format("Health: {0}", shipController.Health);
         }
-        //Debug.Log(shipController.Health);
     }
     public void InvincibilityUpdate()
     {
@@ -195,9 +244,25 @@ public class GameController : MonoBehaviour
     {
         if (needRestart)
         {
+            foreach (SwirlMover item in FindObjectsOfType<SwirlMover>())
+            {
+                Destroy(item.gameObject);
+            }
+            foreach (BlastMover item in FindObjectsOfType<BlastMover>())
+            {
+                Destroy(item.gameObject);
+            }
+            foreach (BoltMover item in FindObjectsOfType<BoltMover>())
+            {
+                Destroy(item.gameObject);
+            }
+            
+
+
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //Application.LoadLevel(Application.loadedLevel);
+                
                 SceneManager.LoadScene(0);
             }
         }
@@ -206,6 +271,12 @@ public class GameController : MonoBehaviour
     public void addScore(int value)
     {
         score += value;
+        updateScore();
+    }
+
+    public void removeScore(int value)
+    {
+        score -= value;
         updateScore();
     }
 
@@ -231,11 +302,20 @@ public class GameController : MonoBehaviour
     {
         if (isGameOver)
             return;
-        if (score > level * 5)
+        if(score > scoreToWin)
+        {
+            canSaveSmallShip = true;
+
+        }
+        if (score > level * 10)
         {
             level++;
-            maxDroid++;
-            DroidSpeed = DroidSpeed;
+            if (maxDroid < litmitDroid)
+            {
+                maxDroid += 1;
+            }
+
+            DroidSpeed += DroidSpeed;
         }
     }
 
@@ -249,6 +329,10 @@ public class GameController : MonoBehaviour
     }
     public void GameOver()
     {
+        if (GameOverText == null || needRestart == null)
+        {
+            return;
+        }
         isGameOver = true;
         needRestart = true;
         GameOverText.text = "Game Over";

@@ -35,6 +35,7 @@ public class FSM
         if (currentStateBase == stateDic[type]) return;
         currentStateBase?.OnExit();
         currentStateBase = stateDic[type];
+        currentStateType = type;
         currentStateBase.OnEnter();
     }
 

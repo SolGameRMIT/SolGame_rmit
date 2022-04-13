@@ -25,10 +25,12 @@ public class BlastMover : MonoBehaviour
         //Debug.Log(" transform.position " + transform.position);
     }
 
+
+
     private void OnDestroy()
     {
         var temp = Instantiate(hited, transform.position, Quaternion.Euler(90f, 90f, 0f));
-        Destroy(temp,0.4f);
+        Destroy(temp, 0.4f);
     }
 
 }

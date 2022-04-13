@@ -38,14 +38,14 @@ public class SpawnAnimationState : IState
         if(Time.time > spawnAnimationTime + spawnAnimationDestoryTime)
         {
             MonoSub.Destroy(m_spawnAnimationObject);
-            m_FSM.TransitionState(StateType.Chase);
+            m_FSM.TransitionState(StateType.Patrolling);
         }
     }
     public void OnExit() //The method that should be executed to exit this state
     {            
         // call OnExit() method by FSM
         MonoSub.Destroy(m_spawnAnimationObject);
-        
+
     }
 
     private class MonoSub : MonoBehaviour

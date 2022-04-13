@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8200520623993413854}
   - component: {fileID: 2518237201015217191}
   - component: {fileID: 5279892298725916920}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Earth-Like_Design4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,3 +98,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c1c02ad2ea622498d0381d25bffef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reverse: 0

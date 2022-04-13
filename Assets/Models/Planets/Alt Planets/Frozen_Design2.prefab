@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2487776148911451437}
   - component: {fileID: 8195093718500741588}
   - component: {fileID: 270453846823697566}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Frozen_Design2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,3 +96,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c1c02ad2ea622498d0381d25bffef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reverse: 0

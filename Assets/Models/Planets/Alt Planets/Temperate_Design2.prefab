@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1720086561914838173}
   - component: {fileID: 4963653941533384804}
   - component: {fileID: -5808161561198742321}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Temperate_Design2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,3 +96,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c1c02ad2ea622498d0381d25bffef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reverse: 0

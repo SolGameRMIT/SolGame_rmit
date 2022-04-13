@@ -18,10 +18,10 @@ public class ChaseState : IState
     float speed = 0.01f;
     private float nextFindPathTime;
     private float FindPathTimeRate = 1f;
-    private float maxForce =  20f, maxSpeed = 20f, slowingRadius = 0.5f, drag = 2f;
+    private float maxForce = 5f, maxSpeed = 5f, slowingRadius = 0.5f, drag = 1f;
     private float pathRadius = 0.001f, futureAhead = 0.25f, avoidanceDistance = 3f, avoidanceWidth = 2f;
     private int currentPath = 0;
-    public ChaseState(FSM fsm,GameObject _gameObject)
+    public ChaseState(FSM fsm, GameObject _gameObject)
     {
         player = GameObject.Find("Player");
         m_GameObject = _gameObject;
@@ -44,29 +44,35 @@ public class ChaseState : IState
     public void OnEnter()   //  The method that should be performed to enter this state
     {
 
-        
+
     }
     public void OnUpdate() //The method that should be executed to maintain this state
     {
-
+        if (gameController == null)
+        {
+            return;
+        }
         if (Time.time > nextFindPathTime)
         {
+
             nextFindPathTime = Time.time + FindPathTimeRate;
             try
             {
                 TryGetPath(player.GetComponent<Transform>().position);
             }
+
             catch (Exception e)
             {
-                Debug.LogError("Error on Paht Finder: " + e);
+                return;
+
             }
         }
-
         if (path != null)
         {
             speed = gameController.getDroidSpeed();
             FollowPath(path);
         }
+        m_Rigidbody.position = new Vector3(m_Rigidbody.position.x, 0, m_Rigidbody.position.z);
     }
     public void OnExit() //The method that should be executed to exit this state
     {
@@ -103,7 +109,7 @@ public class ChaseState : IState
         float distance = desiredVelocity.magnitude;
         if (distance < slowingRadius)
         {
-            desiredVelocity = desiredVelocity.normalized * maxSpeed * (distance/slowingRadius);
+            desiredVelocity = desiredVelocity.normalized * maxSpeed * (distance / slowingRadius);
         }
         else
         {
@@ -120,25 +126,25 @@ public class ChaseState : IState
         {
             float worldRecord = 10000000000f;
             Vector3 target = Vector3.zero;
-            
+
             Vector3 futurePosition = m_Rigidbody.position + (m_Rigidbody.velocity.normalized * futureAhead);
-            for(int i = 0; i < pathList.Count-1;i++)
+            for (int i = 0; i < pathList.Count - 1; i++)
             {
                 Vector3 start = pathList[i];
-                Vector3 end = pathList[i+1];
+                Vector3 end = pathList[i + 1];
                 Vector3 normalPoint = FindTarget(start, end, futurePosition);
-                if (normalPoint.z < Mathf.Min(start.z, end.z) || normalPoint.z > Mathf.Max(start.z, end.z)) 
+                if (normalPoint.z < Mathf.Min(start.z, end.z) || normalPoint.z > Mathf.Max(start.z, end.z))
                 {
                     normalPoint.z = end.z;
                 }
-                if (normalPoint.x < Mathf.Min(start.x, end.x) || normalPoint.x > Mathf.Max(start.x, end.x)) 
+                if (normalPoint.x < Mathf.Min(start.x, end.x) || normalPoint.x > Mathf.Max(start.x, end.x))
                 {
                     normalPoint.x = end.x;
                 }
 
                 float distance = Vector3.Distance(futurePosition, normalPoint);
-                
-                if (distance < worldRecord) 
+
+                if (distance < worldRecord)
                 {
                     worldRecord = distance;
                     currentPath = i;
@@ -148,25 +154,27 @@ public class ChaseState : IState
 
 
             }
-            if(worldRecord > pathRadius)
+            if (worldRecord > pathRadius)
             {
-                if(currentPath == pathList.Count - 2)
+                if (currentPath == pathList.Count - 2)
                 {
-                    m_Rigidbody.AddForce(Arrive(target, m_Rigidbody.position, m_Rigidbody.velocity, maxSpeed, maxForce, slowingRadius));
-                    currentPath = 0;  
+                    var velocity = Arrive(target, m_Rigidbody.position, m_Rigidbody.velocity, maxSpeed, maxForce, slowingRadius);
+                    m_Rigidbody.AddForce(velocity);
+                    currentPath = 0;
                 }
                 else
                 {
-                    m_Rigidbody.AddForce(Seek(target, m_Rigidbody.position, m_Rigidbody.velocity, maxSpeed, maxForce));     
+                    var velocity = Seek(target, m_Rigidbody.position, m_Rigidbody.velocity, maxSpeed, maxForce);
+                    m_Rigidbody.AddForce(velocity);
                 }
                 //If want obstacle avoidance, uncomment this.
-                // m_Rigidbody.AddForce(obstacleAvoidance());
-            }
-            // Vector3 targetDir = target - m_Rigidbody.position;
-            // tf.rotation = Quaternion.Slerp(tf.rotation,  Quaternion.Euler(new Vector3(0f,Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg, 0f)), 0.1f);
+                
+                m_Rigidbody.AddForce(obstacleAvoidance());
+                m_Rigidbody.transform.LookAt(m_Rigidbody.velocity + m_Rigidbody.position, Vector3.up);
+
+            }           
         }
     }
-
 
     Vector3 FindTarget(Vector3 start, Vector3 end, Vector3 futurePostion)
     {
@@ -188,30 +196,30 @@ public class ChaseState : IState
         Vector3 bottomRight = m_Rigidbody.position + (tf.right * radius) + (-tf.forward * radius);
         Vector3 bottomLeft = m_Rigidbody.position + (-tf.right * radius) + (-tf.forward * radius);
         Vector3 topRight = m_Rigidbody.position + ((tf.right * radius * avoidanceWidth) + (tf.forward * avoidanceDistance));
-        Vector3 topLeft = m_Rigidbody.position + (-tf.right * radius* avoidanceWidth) + (tf.forward * avoidanceDistance);
-        // Debug.DrawRay(bottomRight, topRight - bottomRight, Color.green);
-        // Debug.DrawRay(bottomLeft, topLeft - bottomLeft, Color.green);
-        // Debug.DrawRay(bottomRight, bottomLeft - bottomRight, Color.green);
-        // Debug.DrawRay(topRight, topLeft - topRight, Color.green);
+        Vector3 topLeft = m_Rigidbody.position + (-tf.right * radius * avoidanceWidth) + (tf.forward * avoidanceDistance);
+        Debug.DrawRay(bottomRight, topRight - bottomRight, Color.green);
+        Debug.DrawRay(bottomLeft, topLeft - bottomLeft, Color.green);
+        Debug.DrawRay(bottomRight, bottomLeft - bottomRight, Color.green);
+        Debug.DrawRay(topRight, topLeft - topRight, Color.green);
         RaycastHit[] hits = new RaycastHit[2];
         bool[] isHit = new bool[2];
         isHit[0] = Physics.Raycast(bottomLeft, topLeft - bottomLeft, out hits[0], avoidanceDistance, LayerMask.GetMask("unwalkable"));
-        isHit[1] = Physics.Raycast(bottomRight, topRight - bottomRight, out hits[1], avoidanceDistance,  LayerMask.GetMask("unwalkable"));
+        isHit[1] = Physics.Raycast(bottomRight, topRight - bottomRight, out hits[1], avoidanceDistance, LayerMask.GetMask("unwalkable"));
         // Debug.DrawLine(m_Rigidbody.position, hits[0].point, Color.green);
         // Debug.DrawLine(m_Rigidbody.position, hits[1].point, Color.red);
         int leftOrRight = isHit[0] ? 0 : isHit[1] ? 1 : -1;
-        if(leftOrRight != -1)
+        if (leftOrRight != -1)
         {
             Vector3 dir = leftOrRight == 0 ? topRight : topLeft;
             Vector3 steeringToAvoid = dir + m_Rigidbody.position - hits[leftOrRight].collider.transform.position;
             steeringToAvoid *= Vector3.Distance(m_Rigidbody.position, hits[leftOrRight].collider.transform.position);
-            return Seek(steeringToAvoid,m_Rigidbody.position, m_Rigidbody.velocity, maxSpeed, maxForce);
+            return Seek(steeringToAvoid, m_Rigidbody.position, m_Rigidbody.velocity, maxSpeed, maxForce);
         }
         else
         {
             return Vector3.zero;
         }
-        
+
     }
 }
 
