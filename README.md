@@ -1,4 +1,12 @@
 # RMIT Games and AI SolGame
+## How to run
+Please download the project, and open it via your unity hub.
+
+Download the following asset, and insert it into the scene.
+https://assetstore.unity.com/packages/3d/props/breakable-asteroids-167825
+Note:Since ”Assets\Models\BreakableAsteroids\Asteroids\zasteroids.dae” model are larger than 100M and cannot be uploaded to Github.
+
+Enjoy :)
 
 ## Branching Strategy
 
