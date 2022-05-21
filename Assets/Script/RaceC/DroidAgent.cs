@@ -28,7 +28,7 @@ public class DroidAgent : Agent
     private float accDrag = 0.9f;
     private float maxSpeed = 10f;
     private int CurrentStep = 0;
-    private float ShootPenalty = -1f;
+    private float ShootPenalty = -1.5f;
     private int numOfObstacles = 10 , numOfTargets = 15;
     // Start is called before the first frame update
     void Start()
@@ -172,7 +172,7 @@ public class DroidAgent : Agent
             GameObject temp = Instantiate(bullet, transform.position, Quaternion.Euler(rb.rotation.eulerAngles));
             temp.name = "Bolt Bullet";
             Destroy(temp, 8f);
-            if(CurrentStep > 250000)
+            if(CurrentStep > 250000 * 4)
             {
                 AddReward(ShootPenalty);
             }
@@ -213,7 +213,7 @@ public class DroidAgent : Agent
             GameObject temp = Instantiate(bullet, transform.position, Quaternion.Euler(rb.rotation.eulerAngles));
             temp.name = "Bolt Bullet";
             Destroy(temp, 8f);
-            if (CurrentStep > 250000)
+            if (CurrentStep > 250000 * 4)
             {
                 AddReward(ShootPenalty);
             }

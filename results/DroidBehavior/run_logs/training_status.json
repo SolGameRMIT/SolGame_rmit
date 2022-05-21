@@ -2,31 +2,31 @@
     "DroidBehavior": {
         "checkpoints": [
             {
-                "steps": 499937,
-                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499937.onnx",
-                "reward": 29.0,
-                "creation_time": 1653128837.2980802,
+                "steps": 499967,
+                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499967.onnx",
+                "reward": 27.333333333333332,
+                "creation_time": 1653137820.040276,
                 "auxillary_file_paths": [
-                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499937.pt"
+                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499967.pt"
                 ]
             },
             {
-                "steps": 500001,
-                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500001.onnx",
-                "reward": 29.0,
-                "creation_time": 1653128837.3949065,
+                "steps": 500031,
+                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500031.onnx",
+                "reward": 27.333333333333332,
+                "creation_time": 1653137820.1252937,
                 "auxillary_file_paths": [
-                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500001.pt"
+                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500031.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 500001,
+            "steps": 500031,
             "file_path": "results\\DroidBehavior\\DroidBehavior.onnx",
-            "reward": 29.0,
-            "creation_time": 1653128837.3949065,
+            "reward": 27.333333333333332,
+            "creation_time": 1653137820.1252937,
             "auxillary_file_paths": [
-                "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500001.pt"
+                "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500031.pt"
             ]
         }
     },
