@@ -24,12 +24,11 @@ public class PlayerController : Agent
 
 
     Rigidbody m_Rigidbody;
-    Spanwer m_Spanwer;
+    public Spanwer m_Spanwer;
     private float nextFile;
     public float fileRate;
 
     GameObject shot;
-    GameController gameController;
     int weapon;
     public GameObject weaponType1;
     public GameObject weaponType2;
@@ -69,6 +68,8 @@ public class PlayerController : Agent
     // Reinforcement Learning
     private int boidsIced = 0;
     private int boidsToIce;
+    private Vector3 startPos;
+
     //audio sources
     public AudioClip bolt;
     public AudioClip blast;
@@ -92,17 +93,15 @@ public class PlayerController : Agent
         MaxStep = 2000;
 
         //Fetch the Rigidbody component you attach from your GameObject
-        m_Rigidbody = GetComponent<Rigidbody>();
+        m_Rigidbody = gameObject.GetComponent<Rigidbody>();
 
-        m_Spanwer = GetComponent<Spanwer>();
-
-
-        var _gameController = GameObject.Find("GameController");
-        if (_gameController != null)
-        {
-            gameController = _gameController.GetComponent<GameController>();
-        }
-
+        // Reinforcement Learning
+        Debug.Log("Starting location: " + transform.position);
+        startPos = transform.position;
+        boundary.xMin += startPos.x;
+        boundary.xMax += startPos.x;
+        boundary.zMin += startPos.z;
+        boundary.zMax += startPos.z;
 
         //set the initial health of the ship
         currentHealth = Maximumhealth;
@@ -111,37 +110,18 @@ public class PlayerController : Agent
         shot = weaponType1;
         weapon = 1;
 
-        //audio sources
-        Bolt = AddAudio(false, false, 0.4f);
-        Blast = AddAudio(false, false, 0.4f);
-        Swirl = AddAudio(false, false, 0.4f);
-        Damage = AddAudio(false, false, 0.4f);
-        IncreaseHealth = AddAudio(false, false, 0.4f);
-        Explosion = AddAudio(false, false, 0.4f);
-
-        Bolt.clip = bolt;
-        Blast.clip = blast;
-        Swirl.clip = swirl;
-        Damage.clip = damage;
-        IncreaseHealth.clip = increaseHealth;
-        Explosion.clip = explosion;
-
-
-
     }
 
     public override void OnEpisodeBegin()
     {
+        
         Debug.Log("WE BEGINNING!!!");
-        GetComponent<Rigidbody>().MovePosition(new Vector3(0.0f, 0.0f, 0.0f));
-        var _gameController = GameObject.Find("GameController");
-        if (_gameController != null)
-        {
-            gameController = _gameController.GetComponent<GameController>();
-        }
+        Debug.Log(startPos);
+        m_Rigidbody.MovePosition(startPos);
+        gameObject.transform.position = startPos;
         if (m_Spanwer != null)
             m_Spanwer.reBoid();
-        GetComponent<Rigidbody>().velocity = Vector3.zero; 
+        m_Rigidbody.velocity = Vector3.zero; 
 
     }
 
@@ -157,7 +137,7 @@ public class PlayerController : Agent
         if (m_Rigidbody != null)
         {
             sensor.AddObservation(m_Rigidbody.transform.position);
-            sensor.AddObservation(m_Rigidbody.velocity);
+            sensor.AddObservation(velocity);
         }
     }
 
@@ -202,7 +182,7 @@ public class PlayerController : Agent
         velocity.y += moveHorizontal * speed * Mathf.Sin(angle);
         velocity *= spaceDrag;
         acceleration *= acceleratorCooloff;
-        GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(GetComponent<Rigidbody>().velocity, maxThrust);
+        m_Rigidbody.velocity = Vector3.ClampMagnitude(GetComponent<Rigidbody>().velocity, maxThrust);
 
         m_Rigidbody.MovePosition(new Vector3(
             Mathf.Clamp(m_Rigidbody.position.x + velocity.x, boundary.xMin, boundary.xMax),
@@ -219,11 +199,6 @@ public class PlayerController : Agent
     public void setBoidsSpawner(Spanwer spanwer)
     {
         this.m_Spanwer = spanwer;
-    }
-
-    private void OnDestroy()
-    {
-        gameController.GameOver();
     }
 
     void Update()
@@ -332,7 +307,7 @@ public class PlayerController : Agent
         if (other.name.Contains("Boid"))
         {
             Destroy(other.gameObject);
-            AddReward(1.0f);
+            AddReward(3.0f);
             boidsIced++;
 
             if (m_Spanwer != null &&  m_Spanwer.getBoidCount() - boidsIced < 16)
@@ -346,6 +321,7 @@ public class PlayerController : Agent
         else if(other.name.Contains("Border"))
         {
             AddReward(-1.0f);
+            EndEpisode();
         }
     }
 
