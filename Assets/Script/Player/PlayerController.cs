@@ -332,7 +332,7 @@ public class PlayerController : Agent
         if (other.name.Contains("Boid"))
         {
             Destroy(other.gameObject);
-            AddReward(0.5f);
+            AddReward(1.0f);
             boidsIced++;
 
             if (m_Spanwer != null &&  m_Spanwer.getBoidCount() - boidsIced < 16)
@@ -345,7 +345,7 @@ public class PlayerController : Agent
         }
         else if(other.name.Contains("Border"))
         {
-            AddReward(-0.5f);
+            AddReward(-1.0f);
         }
     }
 
