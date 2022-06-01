@@ -26,8 +26,8 @@ public class Boid_ : MonoBehaviour
     public float neighborRadius = 1.5f;
     [Range(1f, 100f)]
     public float driveFactor = 10f;//Control the speed of object movement/velocity
-    [Range(1f, 100f)]
-    public float maxSpeed = 25f; //Maximum speed of object movement/velocity
+    [Range(0f, 100f)]
+    public float maxSpeed = 0f; //Maximum speed of object movement/velocity
 
     [Range(0f, 10f)]
     public float avoidanceRadiusMultiplier = 0.5f;
@@ -251,6 +251,7 @@ public class Boid_ : MonoBehaviour
         }
         velocity *= randomVelocityFactor;
         velocity.y = 0;
+        velocity *= 0;
         transform.forward = velocity;
         transform.position += velocity * Time.deltaTime;
     }

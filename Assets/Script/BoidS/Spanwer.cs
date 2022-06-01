@@ -6,7 +6,7 @@ public class Spanwer : MonoBehaviour
 {
     public GameObject boidPref;
     public GameObject BoidsTargetObject;
-    List<GameObject> boidsList = new List<GameObject>();
+    public List<GameObject> boidsList = new List<GameObject>();
     [Range(1, 500)]
     public int startingCount = 250;
     [Range(1f, 10f)]
@@ -27,7 +27,7 @@ public class Spanwer : MonoBehaviour
             {
                 count++;
                 var postion = new Vector3(Random.Range(minSpawnerX, maxSpawnerX), 0, Random.Range(minSpawnerZ, maxSpawnerZ));
-                if(count == 20)
+                if (count == 20)
                 {
                     return;
                 }
@@ -39,11 +39,29 @@ public class Spanwer : MonoBehaviour
                         transform
                         );
                     boid.name = "Boid " + i;
+                    boid.tag = "boid";
                     boidsList.Add(boid);
                     break;
                 }
             }
         }
+    }
+
+
+    public void reBoid()
+    {
+        foreach (GameObject boid in boidsList)
+        {
+            if (boid != null)
+                Destroy(boid);
+        }
+        this.Start();
+    }
+
+
+    public int getBoidCount()
+    {
+        return boidsList.Count;
     }
 
     // Update is called once per frame
