@@ -1,2 +1,0 @@
-mlagents-learn config/droid_config.yaml --run-id=DroidBehavior --force
-tensorboard --logdir=results

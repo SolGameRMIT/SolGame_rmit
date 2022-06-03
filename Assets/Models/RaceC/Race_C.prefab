@@ -9,6 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8116098603620795070}
+  - component: {fileID: 6253159506298240904}
+  - component: {fileID: 3042393800047907429}
+  - component: {fileID: 7045645556557066900}
+  - component: {fileID: 564157398741119265}
+  - component: {fileID: 648196561592111096}
+  - component: {fileID: 1689985005360426347}
+  - component: {fileID: 5898868856881307774}
+  - component: {fileID: 1543961488508921284}
+  - component: {fileID: 1191330850462560503}
   m_Layer: 0
   m_Name: Race_C
   m_TagString: Untagged
@@ -58,6 +67,192 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &6253159506298240904
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120423797535335546}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0.5
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
+--- !u!64 &3042393800047907429
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120423797535335546}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8051436459753069580, guid: 7434f156f1a25df4596be6564fe60b9d, type: 3}
+--- !u!114 &7045645556557066900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120423797535335546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7366caf9ed7554147ad48719fc5cafd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &564157398741119265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120423797535335546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 5
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 0
+      BranchSizes: 07000000
+    VectorActionSize: 07000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 0}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: DroidBehavior
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_ObservableAttributeHandling: 0
+--- !u!114 &648196561592111096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120423797535335546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92edc2c5018f4f54382ff1d1df42bf5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 2500
+  target: {fileID: 0}
+  obstacle: {fileID: 0}
+  wallFolder: {fileID: 0}
+  droidBolt: {fileID: 6742945149443034256, guid: 494119b93d015af469d96d9bdd93ee79, type: 3}
+  _playerBolt: {fileID: 0}
+  timeBetweenShootingAtDroid: 0
+--- !u!114 &1689985005360426347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120423797535335546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  TakeActionsBetweenDecisions: 1
+--- !u!114 &5898868856881307774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120423797535335546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: ObstacleSensor
+  m_DetectableTags: []
+  m_RaysPerDirection: 40
+  m_MaxRayDegrees: 180
+  m_SphereCastRadius: 6
+  m_RayLength: 1000
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ObservationStacks: 1
+  rayHitColor: {r: 1, g: 0.1660024, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 0}
+  m_StartVerticalOffset: 0
+  m_EndVerticalOffset: 0
+--- !u!114 &1543961488508921284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120423797535335546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: TargetSensor
+  m_DetectableTags: []
+  m_RaysPerDirection: 40
+  m_MaxRayDegrees: 180
+  m_SphereCastRadius: 6
+  m_RayLength: 1000
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  m_ObservationStacks: 1
+  rayHitColor: {r: 0.07843137, g: 1, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 0}
+  m_StartVerticalOffset: 0
+  m_EndVerticalOffset: 0
+--- !u!114 &1191330850462560503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120423797535335546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: PlayerBoltSensor
+  m_DetectableTags: []
+  m_RaysPerDirection: 50
+  m_MaxRayDegrees: 180
+  m_SphereCastRadius: 6
+  m_RayLength: 500
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  m_ObservationStacks: 1
+  rayHitColor: {r: 0.048303604, g: 0, b: 1, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 0}
+  m_StartVerticalOffset: 0
+  m_EndVerticalOffset: 0
 --- !u!1001 &306166848342803886
 PrefabInstance:
   m_ObjectHideFlags: 0

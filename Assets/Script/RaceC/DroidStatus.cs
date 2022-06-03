@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class DroidStatus : MonoBehaviour
 {
-    private int coinsCollected;
     private DroidAgent droidAgent;
-
+    private bool shieldActivated = false;
     // Use this for initialization
     void Start()
     {
         droidAgent = GetComponent<DroidAgent>();
-        coinsCollected = 0;
     }
 
     // Update is called once per frame
@@ -17,28 +15,48 @@ public class DroidStatus : MonoBehaviour
     {
 
     }
-
-    public void ShootObstacle(GameObject bomb)
+    public void MissShot()
     {
-        bomb.SetActive(false);
+        droidAgent.HandleMissShot();
+    }
+    public void ShootObstacle()
+    {
         droidAgent.HandleShootObstacle();
     }
-    public void CollectTarget(GameObject coin)
-    {
-        coinsCollected++;
-        coin.SetActive(false);
-        droidAgent.HandleCollectTarget();
-    }
 
-    public void HitObstacle(GameObject bomb)
+    public void HitBullet()
     {
-        bomb.SetActive(false);
+        if (shieldActivated)
+        {
+            print("Shielded the bullet");
+            droidAgent.HandleShieldSuccess();
+        }
+        else
+        {
+            print("Hit the bullet");
+            droidAgent.HandleHitByPlayerBolt();
+        }
+    }
+    public void HitObstacle()
+    {
         droidAgent.HandleHitObstacle();
     }
     public void ShootTarget(GameObject coin)
     {
-        coinsCollected++;
-        coin.SetActive(false);
         droidAgent.HandleShootTarget();
+    }
+
+    public void ShieldActivate(bool status)
+    {
+        this.shieldActivated = status;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "Player Bolt")
+        {
+            HitBullet();
+            Destroy(other.gameObject);
+        }
     }
 }

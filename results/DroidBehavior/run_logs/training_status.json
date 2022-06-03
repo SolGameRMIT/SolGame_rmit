@@ -2,31 +2,31 @@
     "DroidBehavior": {
         "checkpoints": [
             {
-                "steps": 499967,
-                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499967.onnx",
-                "reward": 27.333333333333332,
-                "creation_time": 1653137820.040276,
+                "steps": 499884,
+                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499884.onnx",
+                "reward": 6.449999213218689,
+                "creation_time": 1654209596.2210495,
                 "auxillary_file_paths": [
-                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499967.pt"
+                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499884.pt"
                 ]
             },
             {
-                "steps": 500031,
-                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500031.onnx",
-                "reward": 27.333333333333332,
-                "creation_time": 1653137820.1252937,
+                "steps": 500128,
+                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500128.onnx",
+                "reward": 3.404999554157257,
+                "creation_time": 1654209597.779967,
                 "auxillary_file_paths": [
-                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500031.pt"
+                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500128.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 500031,
+            "steps": 500128,
             "file_path": "results\\DroidBehavior\\DroidBehavior.onnx",
-            "reward": 27.333333333333332,
-            "creation_time": 1653137820.1252937,
+            "reward": 3.404999554157257,
+            "creation_time": 1654209597.779967,
             "auxillary_file_paths": [
-                "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500031.pt"
+                "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500128.pt"
             ]
         }
     },
