@@ -3,7 +3,7 @@ using UnityEngine;
 public class DroidStatus : MonoBehaviour
 {
     private DroidAgent droidAgent;
-    private bool shieldActivated = false;
+    //private bool shieldActivated = false;
     // Use this for initialization
     void Start()
     {
@@ -26,16 +26,18 @@ public class DroidStatus : MonoBehaviour
 
     public void HitBullet()
     {
-        if (shieldActivated)
-        {
-            print("Shielded the bullet");
-            droidAgent.HandleShieldSuccess();
-        }
-        else
-        {
-            print("Hit the bullet");
-            droidAgent.HandleHitByPlayerBolt();
-        }
+        // if (shieldActivated)
+        // {
+        //     print("Shielded the bullet");
+        //     droidAgent.HandleShieldSuccess();
+        // }
+        // else
+        // {
+        //     print("Hit the bullet");
+        //     droidAgent.HandleHitByPlayerBolt();
+        // }
+        print("Hit the bullet");
+        droidAgent.HandleHitByPlayerBolt();
     }
     public void HitObstacle()
     {
@@ -46,16 +48,17 @@ public class DroidStatus : MonoBehaviour
         droidAgent.HandleShootTarget();
     }
 
-    public void ShieldActivate(bool status)
-    {
-        this.shieldActivated = status;
-    }
+    // public void ShieldActivate(bool status)
+    // {
+    //     this.shieldActivated = status;
+    // }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "Player Bolt")
         {
             HitBullet();
+            other.gameObject.SetActive(false);
             Destroy(other.gameObject);
         }
     }

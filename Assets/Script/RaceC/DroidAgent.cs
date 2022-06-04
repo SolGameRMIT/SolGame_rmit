@@ -35,9 +35,10 @@ public class DroidAgent : Agent
     private int targetShotCount;
     private float acceleration;
     private float accDrag = 0.9f;
+    private float velDrag = 0.5f;
     private float maxSpeed = 15f;
     private int CurrentStep = 0;
-    private float ShotMissPenalty = -0.05f;
+    private float ShotMissPenalty = -0.1f;
     private float maxTargetSpeed = 3f;
     private float maxObstacleSpeed = 0.5f;
     private int targetHP = 5;
@@ -45,15 +46,17 @@ public class DroidAgent : Agent
     private float maxDistance = 10f;
     private float minDistance = 4f;
     private float HitObstaclePenalty = -8f;
-    private float FollowPlayerReward = 0.01f;
+    private float FollowPlayerReward = 0.02f;
     private float ShootObstaclePenalty = -4f;
-    private float HitTargetReward = 1f;
-    private float KillTargetReward = 5f;
-    private float ShieldSuccessReward = 5f;
-    private float ShieldFailPenalty = -1f;
+    private float HitTargetReward = 2f;
+    private float KillTargetReward = 10f;
+    private float ShieldSuccessReward = 10f;
+    private float HitByPlayerBolt = -1f;
     private float Braking = -0.7f;
     private float RewardGainedByFollow = 0f;
-
+    private float ShieldWastedPenalty = -5f;
+    private bool shieldWasted = true;
+    private int numOfWastedShield = 0;
     private int numberOfBulletsShotAtDroid = 10;
     [SerializeField] private float timeBetweenShootingAtDroid;
     private List<GameObject> obstacles = new List<GameObject>();
@@ -64,6 +67,7 @@ public class DroidAgent : Agent
 
         // Get and store a references to the Rigidbody2D and SpriteRenderer components.
         rb = GetComponent<Rigidbody>();
+        rb.drag = velDrag;
         rb.centerOfMass = Vector3.zero;
         rb.inertiaTensorRotation = Quaternion.identity;
         timeBetweenShootingAtDroid = Random.Range(10, 30);
@@ -72,12 +76,13 @@ public class DroidAgent : Agent
     }
     public void HandleShieldSuccess()
     {
+        shieldWasted = false;
         AddReward(ShieldSuccessReward);
         shieldSuccess++;
     }
     public void HandleHitByPlayerBolt()
     {
-        AddReward(ShieldFailPenalty);
+        AddReward(HitByPlayerBolt);
         hitByPlayerBolt++;
     }
     public void HandleMissShot()
@@ -85,10 +90,7 @@ public class DroidAgent : Agent
         numOfMissedShot++;
         AddReward(ShotMissPenalty);
     }
-    public void HandleCollectTarget()
-    {
-        AddReward(1.0f);
-    }
+
     public void HandleShootTarget()
     {
         AddReward(HitTargetReward);
@@ -120,7 +122,8 @@ public class DroidAgent : Agent
         Academy.Instance.StatsRecorder.Add("Amount of Reward gained by following the Target", RewardGainedByFollow);
         Academy.Instance.StatsRecorder.Add("Number of Times Shield Success", shieldSuccess);
         Academy.Instance.StatsRecorder.Add("Number of Times Hit by Player Bolt", hitByPlayerBolt);
-
+        Academy.Instance.StatsRecorder.Add("Number of Wasted Shields", numOfWastedShield);
+        numOfWastedShield = 0;
         shieldSuccess = 0;
         hitByPlayerBolt = 0;
         numOfTimeHitObstacle = 0;
@@ -141,9 +144,9 @@ public class DroidAgent : Agent
         if (this.CurrentStep > 500000 * 4)
         {
             target.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(new Vector3(Random.Range(-randomRange, randomRange), 0f, Random.Range(-randomRange, randomRange)), maxTargetSpeed);
-            ShotMissPenalty = -0.1f;
-            //HitObstaclePenalty = -8f;
-            //ShootObstaclePenalty = -5f;
+            ShotMissPenalty = -0.2f;
+            // HitByPlayerBolt = -1f;
+            // ShieldSuccessReward = 5f;
         }
 
         foreach (GameObject obj in obstacles)
@@ -156,7 +159,7 @@ public class DroidAgent : Agent
         for (int i = 0; i < maxObstacle + (int)Mathf.Floor(this.CurrentStep / 1000000); i++)
         {
             var newObstacle = Instantiate(obstacle, this.transform.parent.localPosition + new Vector3(Random.Range(-randomRange, randomRange), 0f, Random.Range(-randomRange, randomRange)), Quaternion.identity);
-            if (this.CurrentStep > 500000 * 8)
+            if (this.CurrentStep > 500000 * 6)
             {
                 newObstacle.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(new Vector3(Random.Range(-randomRange, randomRange), 0f, Random.Range(-randomRange, randomRange)), maxObstacleSpeed);
             }
@@ -176,28 +179,94 @@ public class DroidAgent : Agent
         sensor.AddObservation(this.GetComponent<Rigidbody>().velocity.z);
         sensor.AddObservation(Vector3.Distance(this.transform.localPosition, target.transform.localPosition));
 
+
     }
     void Update()
     {
+        // Vector3 forceDirection = Vector3.zero;
+        // Vector3 rotateVector = Vector3.zero;
+        // if (Input.GetKey(KeyCode.LeftArrow))
+        // {
+        //     rotateVector = transform.up * (-rotateSpeed);
+        // }
+        // else if (Input.GetKey(KeyCode.RightArrow))
+        // {
+        //     rotateVector = transform.up * rotateSpeed;
+        // }
+        // else if (Input.GetKey(KeyCode.UpArrow))
+        // {
+        //     acceleration += thrust;
+        // }
+        // else if (Input.GetKey(KeyCode.DownArrow))
+        // {
+        //     rb.AddForce(Braking * rb.velocity);
+        // }
+        // else if (Input.GetMouseButton(0) && Time.time > nextFire)
+        // {
+        //     nextFire = Time.time + fireRate;
+        //     GameObject temp = Instantiate(droidBolt, transform.position, Quaternion.Euler(rb.rotation.eulerAngles));
+        //     temp.name = "Droid Bolt";
+        //     numOfShot++;
+        //     Destroy(temp, 10f);
+        // }
+        // else if (Input.GetMouseButton(1) && Time.time > nextShield)
+        // {
+        //     nextShield = Time.time + shieldRate;
+        //     shieldDt = Time.time;
+        //     shieldActivated = true;
+        //     transform.Find("Shield").gameObject.SetActive(true);
+        // }
+
+        // if (Vector3.Distance(this.transform.localPosition, target.transform.localPosition) <= maxDistance && Vector3.Distance(this.transform.localPosition, target.transform.localPosition) >= minDistance)
+        // {
+        //     AddReward(FollowPlayerReward);
+        // }
+        // if (shieldActivated)
+        // {
+        //     if (Time.time > shieldDt + shieldDuration)
+        //     {
+        //         shieldActivated = false;
+        //         transform.Find("Shield").gameObject.SetActive(false);
+        //     }
+        // }
+        // forceDirection = transform.forward * acceleration;
+        // rb.MoveRotation(Quaternion.Euler(rb.rotation.eulerAngles + rotateVector));
+        // rb.AddForce(forceDirection);
+        // rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        // acceleration *= accDrag;
+
+
+    }
+    public override void OnActionReceived(ActionBuffers actionBuffers)
+    {
+
+
+        int movingAction = actionBuffers.DiscreteActions[0]; //movement
+        int abilityAction = actionBuffers.DiscreteActions[1]; //shoot and abilities
         Vector3 forceDirection = Vector3.zero;
         Vector3 rotateVector = Vector3.zero;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (movingAction == 0)
+        {
+            //pass
+        }
+        else if (movingAction == 1)
         {
             rotateVector = transform.up * (-rotateSpeed);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (movingAction == 2)
         {
             rotateVector = transform.up * rotateSpeed;
         }
-        else if (Input.GetKey(KeyCode.UpArrow))
+        else if (movingAction == 3)
         {
             acceleration += thrust;
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (movingAction == 4)
         {
             rb.AddForce(Braking * rb.velocity);
         }
-        else if (Input.GetMouseButton(0) && Time.time > nextFire)
+
+        if (abilityAction == 0 && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             GameObject temp = Instantiate(droidBolt, transform.position, Quaternion.Euler(rb.rotation.eulerAngles));
@@ -205,28 +274,14 @@ public class DroidAgent : Agent
             numOfShot++;
             Destroy(temp, 10f);
         }
-        else if (Input.GetMouseButton(1) && Time.time > nextShield)
+        else if (abilityAction == 1 && Time.time > nextShield)
         {
             nextShield = Time.time + shieldRate;
             shieldDt = Time.time;
             shieldActivated = true;
             transform.Find("Shield").gameObject.SetActive(true);
-            this.GetComponent<DroidStatus>().ShieldActivate(true);
         }
 
-        if (Vector3.Distance(this.transform.localPosition, target.transform.localPosition) <= maxDistance && Vector3.Distance(this.transform.localPosition, target.transform.localPosition) >= minDistance)
-        {
-            AddReward(FollowPlayerReward);
-        }
-        if (shieldActivated)
-        {
-            if (Time.time > shieldDt + shieldDuration)
-            {
-                shieldActivated = false;
-                transform.Find("Shield").gameObject.SetActive(false);
-                this.GetComponent<DroidStatus>().ShieldActivate(false);
-            }
-        }
         forceDirection = transform.forward * acceleration;
         rb.MoveRotation(Quaternion.Euler(rb.rotation.eulerAngles + rotateVector));
         rb.AddForce(forceDirection);
@@ -242,70 +297,26 @@ public class DroidAgent : Agent
             }
             timeBetweenShootingAtDroid = Time.time + Random.Range(10, 30);
         }
-    }
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-    {
-
-
-        int action = actionBuffers.DiscreteActions[0];
-        Vector3 forceDirection = Vector3.zero;
-        Vector3 rotateVector = Vector3.zero;
-        if (action == 0)
-        {
-            //pass
-        }
-        else if (action == 1)
-        {
-            rotateVector = transform.up * (-rotateSpeed);
-        }
-        else if (action == 2)
-        {
-            rotateVector = transform.up * rotateSpeed;
-        }
-        else if (action == 3)
-        {
-            acceleration += thrust;
-        }
-        else if (action == 4)
-        {
-            rb.AddForce(Braking * rb.velocity);
-        }
-        else if (action == 5 && Time.time > nextFire)
-        {
-            nextFire = Time.time + fireRate;
-            GameObject temp = Instantiate(droidBolt, transform.position, Quaternion.Euler(rb.rotation.eulerAngles));
-            temp.name = "Droid Bolt";
-            numOfShot++;
-            Destroy(temp, 10f);
-        }
-        else if (action == 6 && Time.time > nextShield)
-        {
-            nextShield = Time.time + shieldRate;
-            shieldDt = Time.time;
-            shieldActivated = true;
-            transform.Find("Shield").gameObject.SetActive(true);
-            this.GetComponent<DroidStatus>().ShieldActivate(true);
-        }
         if (Vector3.Distance(this.transform.localPosition, target.transform.localPosition) <= maxDistance && Vector3.Distance(this.transform.localPosition, target.transform.localPosition) >= minDistance)
         {
             AddReward(FollowPlayerReward);
             RewardGainedByFollow += FollowPlayerReward;
         }
+
         if (shieldActivated)
         {
             if (Time.time > shieldDt + shieldDuration)
             {
                 shieldActivated = false;
                 transform.Find("Shield").gameObject.SetActive(false);
-                this.GetComponent<DroidStatus>().ShieldActivate(false);
+                if (shieldWasted)
+                {
+                    AddReward(ShieldWastedPenalty);
+                    numOfWastedShield++;
+                }
+                shieldWasted = true;
             }
         }
-
-        forceDirection = transform.forward * acceleration;
-        rb.MoveRotation(Quaternion.Euler(rb.rotation.eulerAngles + rotateVector));
-        rb.AddForce(forceDirection);
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-        acceleration *= accDrag;
 
     }
 }

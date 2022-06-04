@@ -2,31 +2,31 @@
     "DroidBehavior": {
         "checkpoints": [
             {
-                "steps": 499884,
-                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499884.onnx",
-                "reward": 6.449999213218689,
-                "creation_time": 1654209596.2210495,
+                "steps": 499982,
+                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499982.onnx",
+                "reward": -1.233334223429362,
+                "creation_time": 1654301334.8638084,
                 "auxillary_file_paths": [
-                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499884.pt"
+                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499982.pt"
                 ]
             },
             {
-                "steps": 500128,
-                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500128.onnx",
-                "reward": 3.404999554157257,
-                "creation_time": 1654209597.779967,
+                "steps": 500062,
+                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500062.onnx",
+                "reward": 2.404999256134033,
+                "creation_time": 1654301335.038725,
                 "auxillary_file_paths": [
-                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500128.pt"
+                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500062.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 500128,
+            "steps": 500062,
             "file_path": "results\\DroidBehavior\\DroidBehavior.onnx",
-            "reward": 3.404999554157257,
-            "creation_time": 1654209597.779967,
+            "reward": 2.404999256134033,
+            "creation_time": 1654301335.038725,
             "auxillary_file_paths": [
-                "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500128.pt"
+                "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500062.pt"
             ]
         }
     },
