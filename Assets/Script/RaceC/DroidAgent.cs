@@ -64,14 +64,14 @@ public class DroidAgent : Agent
     //Reward Penalty
     private float HitObstaclePenalty = -8f;
     private float ShootObstaclePenalty = -4f;
-    private float HitTargetReward = 2f;
+    private float HitTargetReward = 1f;
     private float KillTargetReward = 5f;
     private float HitByPlayerBolt = -1f;
     private float ShieldSuccessReward = 5f;
-    private float ShieldWastedPenalty = -2.5f;
+    private float ShieldWastedPenalty = -1f;
 
-    private float FollowPlayerReward = 0.02f;
-    private float ShotMissPenalty = -0.2f;
+    private float FollowPlayerReward = 0.01f;
+    private float ShotMissPenalty = -0.05f;
 
     [SerializeField] private float timeBetweenShootingAtDroid;
     private List<GameObject> obstacles = new List<GameObject>();
@@ -159,7 +159,7 @@ public class DroidAgent : Agent
         if (this.CurrentStep > 500000 * 4)
         {
             target.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(new Vector3(Random.Range(-randomRange, randomRange), 0f, Random.Range(-randomRange, randomRange)), maxTargetSpeed);
-            ShotMissPenalty = -0.2f;
+            ShotMissPenalty = -0.1f;
             // HitByPlayerBolt = -1f;
             // ShieldSuccessReward = 5f;
         }

@@ -1,35 +1,4 @@
 {
-    "DroidBehavior": {
-        "checkpoints": [
-            {
-                "steps": 499983,
-                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499983.onnx",
-                "reward": -2.2800024350484214,
-                "creation_time": 1654339398.5643497,
-                "auxillary_file_paths": [
-                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-499983.pt"
-                ]
-            },
-            {
-                "steps": 500029,
-                "file_path": "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500029.onnx",
-                "reward": 1.5299971103668213,
-                "creation_time": 1654339398.7622375,
-                "auxillary_file_paths": [
-                    "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500029.pt"
-                ]
-            }
-        ],
-        "final_checkpoint": {
-            "steps": 500029,
-            "file_path": "results\\DroidBehavior\\DroidBehavior.onnx",
-            "reward": 1.5299971103668213,
-            "creation_time": 1654339398.7622375,
-            "auxillary_file_paths": [
-                "results\\DroidBehavior\\DroidBehavior\\DroidBehavior-500029.pt"
-            ]
-        }
-    },
     "metadata": {
         "stats_format_version": "0.3.0",
         "mlagents_version": "0.29.0",
