@@ -38,26 +38,30 @@ public class DroidAgent : Agent
     private float velDrag = 0.5f;
     private float maxSpeed = 15f;
     private int CurrentStep = 0;
-    private float ShotMissPenalty = -0.1f;
     private float maxTargetSpeed = 3f;
     private float maxObstacleSpeed = 0.5f;
     private int targetHP = 5;
     private int maxObstacle = 10;
     private float maxDistance = 10f;
     private float minDistance = 4f;
-    private float HitObstaclePenalty = -8f;
-    private float FollowPlayerReward = 0.02f;
-    private float ShootObstaclePenalty = -4f;
-    private float HitTargetReward = 2f;
-    private float KillTargetReward = 10f;
-    private float ShieldSuccessReward = 10f;
-    private float HitByPlayerBolt = -1f;
     private float Braking = -0.7f;
     private float RewardGainedByFollow = 0f;
-    private float ShieldWastedPenalty = -5f;
     private bool shieldWasted = true;
     private int numOfWastedShield = 0;
     private int numberOfBulletsShotAtDroid = 10;
+
+    //Reward Penalty
+    private float HitObstaclePenalty = -8f;
+    private float ShootObstaclePenalty = -4f;
+    private float HitTargetReward = 2f;
+    private float KillTargetReward = 5f;
+    private float HitByPlayerBolt = -1f;
+    private float ShieldSuccessReward = 5f;
+    private float ShieldWastedPenalty = -2.5f;
+
+    private float FollowPlayerReward = 0.02f;
+    private float ShotMissPenalty = -0.2f;
+
     [SerializeField] private float timeBetweenShootingAtDroid;
     private List<GameObject> obstacles = new List<GameObject>();
     void Start()
