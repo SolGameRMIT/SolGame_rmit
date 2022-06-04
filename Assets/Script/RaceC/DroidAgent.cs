@@ -16,28 +16,24 @@ public class DroidAgent : Agent
     [SerializeField] private Transform wallFolder;
     [SerializeField] private GameObject droidBolt, _playerBolt;
 
+    //Values to control the shooting
     private float nextFire = 0f;
-    private float nextShield = 0f;
     private float fireRate = 1f;
+    //Values to control the shielding
+    private float nextShield = 0f;
     private float shieldRate = 10f;
     private float shieldDuration = 2f;
     private float shieldDt = 0f;
     private bool shieldActivated = false;
-    private float randomRange = 17.5f;
-    private float rotateSpeed = 2f;
-    private int shieldSuccess = 0;
-    private int hitByPlayerBolt = 0;
-    private int numOfTimeHitObstacle = 0;
-    private int numOfTimeShootObstacle = 0;
-    private int numOfMissedShot = 0;
-    private int numOfShot = 0;
+    private bool shieldWasted = true;
+
+    //Values to control the movement
     private float thrust = 2f;
-    private int targetShotCount;
     private float acceleration;
     private float accDrag = 0.9f;
     private float velDrag = 0.5f;
     private float maxSpeed = 15f;
-    private int CurrentStep = 0;
+    private float rotateSpeed = 2f;
     private float maxTargetSpeed = 3f;
     private float maxObstacleSpeed = 0.5f;
     private int targetHP = 5;
@@ -45,10 +41,25 @@ public class DroidAgent : Agent
     private float maxDistance = 10f;
     private float minDistance = 4f;
     private float Braking = -0.7f;
+
+    //Random value to control randomization
+    private float randomRange = 17.5f;
+
+    //These values are data will be recorded in TensorBoard
+    private int shieldSuccess = 0;
+    private int hitByPlayerBolt = 0;
+    private int numOfTimeHitObstacle = 0;
+    private int numOfTimeShootObstacle = 0;
+    private int numOfMissedShot = 0;
+    private int numOfShot = 0;
+    private int targetShotCount = 0;
     private float RewardGainedByFollow = 0f;
-    private bool shieldWasted = true;
     private int numOfWastedShield = 0;
     private int numberOfBulletsShotAtDroid = 10;
+
+    //Value to control stages via the progress of learning
+    private int CurrentStep = 0;
+
 
     //Reward Penalty
     private float HitObstaclePenalty = -8f;
