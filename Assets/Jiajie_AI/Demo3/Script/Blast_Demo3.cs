@@ -42,16 +42,16 @@ public class Blast_Demo3 : MonoBehaviour
         }
         if (collider.gameObject.tag == "enemy")
         {
-            Debug.Log("Shooted at enemy AddReward 1 ");
+            Debug.Log("Shooted at enemy AddReward 0.2 ");
             collider.gameObject.SetActive(false);
             collider.gameObject.GetComponent<RaceA_Demo3>().GameReset();
-            playerAgent.AddReward(0.3f);
+            playerAgent.AddReward(0.2f);
             Destroy(gameObject);
         }
         if (collider.gameObject.tag == "Wall")
         {
-            Debug.Log("Shooted at Wall, AddReward -0.02 ");
-            playerAgent.AddReward(-0.02f);
+            Debug.Log("Shooted at Wall, AddReward -0.1 ");
+            playerAgent.AddReward(-0.1f);
             Destroy(gameObject);
         }
         if (collider.gameObject.tag == "Boid")
@@ -62,12 +62,6 @@ public class Blast_Demo3 : MonoBehaviour
             playerAgent.AddReward(-1f);
             Destroy(gameObject);
         }
-        if (collider.gameObject.tag == "Agent")
-        {
-            return;
-        }
-
-
     }
 
 

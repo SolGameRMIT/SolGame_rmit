@@ -12,7 +12,7 @@ public class RaceA_Demo3 : MonoBehaviour
 
     void Start()
     {
-        moveSpeed = Random.Range(6f, 10f);
+        moveSpeed = Random.Range(5f, 10f);
     }
     public void Init(GameObject agent, GameController_Demo3 controller)
     {
@@ -31,7 +31,7 @@ public class RaceA_Demo3 : MonoBehaviour
     public void GameReset()
     {
 
-        moveSpeed = Random.Range(6f, 10f);
+        moveSpeed = Random.Range(5f, 10f);
 
         if (Random.Range(0f, 2f) > 1)
         {

@@ -1,0 +1,57 @@
+Mono path[0] = 'C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Managed'
+Mono config path = 'C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/MonoBleedingEdge/etc'
+PlayerConnection initialized from C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55165
+Multi-casting "[IP] 192.168.43.177 [Port] 55165 [Flags] 2 [Guid] 3718906219 [EditorId] 2253444422 [Version] 1048832 [Id] WindowsPlayer(DESKTOP-5GR7IJM) [Debug] 0 [PackageName] WindowsPlayer [ProjectName] SolGame" to [225.0.0.222:54997]...
+Started listening to [0.0.0.0:55165]
+PlayerConnection already initialized - listening to [0.0.0.0:55165]
+Initialize engine version: 2020.3.30f1 (1fb1bf06830e)
+[Subsystems] Discovering subsystems at path C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/UnitySubsystems
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Intel(R) Iris(R) Xe Graphics (ID=0x9a49)
+    Vendor:   
+    VRAM:     3985 MB
+    Driver:   30.0.101.1404
+Begin MonoManager ReloadAssembly
+- Completed reload, in  8.364 seconds
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 5.670600 ms
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libcoreclr.so
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libcoreclr.so.dll
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libcoreclr.so
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libdl.so
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libdl.so.dll
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libdl.so
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libSystem.dylib
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libSystem.dylib.dll
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libSystem.dylib
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libcoreclr.so
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libcoreclr.so.dll
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libcoreclr.so
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libdl.so
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libdl.so.dll
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libdl.so
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libSystem.dylib
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libSystem.dylib.dll
+Fallback handler could not load library C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Demo4/SolGame_Data/Mono/libSystem.dylib
+failed to get 100ns ticks
+START 9.0
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at C:/buildslave/unity/build/Runtime/Export/Scripting/StackTrace.cs:37)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+PlayerAgent_Demo4:Awake () (at C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Assets/Jiajie_AI/Demo4/Script/PlayerAgent_Demo4.cs:20)
+
+(Filename: C:/Users/jack/Documents/GitHub/New/SolGame_rmit/Assets/Jiajie_AI/Demo4/Script/PlayerAgent_Demo4.cs Line: 20)
+
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 3ec4 -> priority: 1 
+  Thread -> id: 25b8 -> priority: 1 
+  Thread -> id: ba8 -> priority: 1 
+  Thread -> id: 2be0 -> priority: 1 
+##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1654304109468,"processId":18492,"allocatedMemory":202954,"memoryLabels":[{"Permanent":40},{"NewDelete":256},{"Manager":1520},{"GfxDevice":196744},{"Serialization":456},{"WebCam":32},{"String":362},{"HashMap":1536},{"PoolAlloc":56},{"GI":296},{"VR":1560},{"Subsystems":96}]}

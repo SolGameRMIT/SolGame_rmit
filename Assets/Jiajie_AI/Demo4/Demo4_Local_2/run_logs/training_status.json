@@ -1,0 +1,65 @@
+{
+    "BehaviorDemo4": {
+        "checkpoints": [
+            {
+                "steps": 690355,
+                "file_path": "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-690355.onnx",
+                "reward": null,
+                "creation_time": 1654352918.3743246,
+                "auxillary_file_paths": [
+                    "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-690355.pt"
+                ]
+            },
+            {
+                "steps": 999947,
+                "file_path": "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-999947.onnx",
+                "reward": null,
+                "creation_time": 1654362833.0572886,
+                "auxillary_file_paths": [
+                    "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-999947.pt"
+                ]
+            },
+            {
+                "steps": 1499997,
+                "file_path": "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-1499997.onnx",
+                "reward": null,
+                "creation_time": 1654371455.5865943,
+                "auxillary_file_paths": [
+                    "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-1499997.pt"
+                ]
+            },
+            {
+                "steps": 1999992,
+                "file_path": "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-1999992.onnx",
+                "reward": null,
+                "creation_time": 1654379886.7856474,
+                "auxillary_file_paths": [
+                    "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-1999992.pt"
+                ]
+            },
+            {
+                "steps": 2255974,
+                "file_path": "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-2255974.onnx",
+                "reward": null,
+                "creation_time": 1654386803.2421417,
+                "auxillary_file_paths": [
+                    "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-2255974.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2255974,
+            "file_path": "results\\Demo4_Local_2\\BehaviorDemo4.onnx",
+            "reward": null,
+            "creation_time": 1654386803.2421417,
+            "auxillary_file_paths": [
+                "results\\Demo4_Local_2\\BehaviorDemo4\\BehaviorDemo4-2255974.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}

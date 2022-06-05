@@ -954,7 +954,7 @@ PrefabInstance:
     - target: {fileID: 2837034092341392703, guid: 6473234538d2ca64189ffd1fae4be29e, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: fe44f7330757c1145a71ec7ad9af92c0, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 2837034092341392703, guid: 6473234538d2ca64189ffd1fae4be29e, type: 3}
       propertyPath: m_BehaviorType
       value: 0
@@ -962,6 +962,10 @@ PrefabInstance:
     - target: {fileID: 2837034092341392703, guid: 6473234538d2ca64189ffd1fae4be29e, type: 3}
       propertyPath: m_InferenceDevice
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453003030202259166, guid: 6473234538d2ca64189ffd1fae4be29e, type: 3}
+      propertyPath: fileRate
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6473234538d2ca64189ffd1fae4be29e, type: 3}

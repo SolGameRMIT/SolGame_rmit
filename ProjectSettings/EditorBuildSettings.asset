@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Jiajie_AI/Demo4/Demo4.unity
+    guid: b93d8908ce4b412418f2a22cccd7dde4
   m_configObjects: {}
