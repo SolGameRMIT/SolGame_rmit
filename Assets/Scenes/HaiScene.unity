@@ -1496,6 +1496,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5885951815325880841}
     - target: {fileID: 648196561592111096, guid: a8291d531bf2bc04fa1ecbb99d5057d2, type: 3}
+      propertyPath: testing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 648196561592111096, guid: a8291d531bf2bc04fa1ecbb99d5057d2, type: 3}
       propertyPath: obstacle
       value: 
       objectReference: {fileID: 1785722350}

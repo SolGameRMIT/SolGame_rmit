@@ -257,7 +257,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: dd67d49a01ce84648bf085fd5478875e, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: DroidBehavior
@@ -286,6 +286,7 @@ MonoBehaviour:
   wallFolder: {fileID: 0}
   droidBolt: {fileID: 6742945149443034256, guid: 494119b93d015af469d96d9bdd93ee79, type: 3}
   _playerBolt: {fileID: 0}
+  testing: 0
   timeBetweenShootingAtDroid: 0
 --- !u!114 &1689985005360426347
 MonoBehaviour:

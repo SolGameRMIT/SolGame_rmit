@@ -15,7 +15,8 @@ public class DroidAgent : Agent
     [SerializeField] private GameObject target, obstacle;
     [SerializeField] private Transform wallFolder;
     [SerializeField] private GameObject droidBolt, _playerBolt;
-
+    [SerializeField]
+    private bool testing = false;
     //Values to control the shooting
     private float nextFire = 0f;
     private float fireRate = 1f;
@@ -67,11 +68,11 @@ public class DroidAgent : Agent
     private float HitTargetReward = 1f;
     private float KillTargetReward = 5f;
     private float HitByPlayerBolt = -1f;
-    private float ShieldSuccessReward = 5f;
-    private float ShieldWastedPenalty = -1f;
+    private float ShieldSuccessReward = 10f;
+    private float ShieldWastedPenalty = -3f;
 
     private float FollowPlayerReward = 0.01f;
-    private float ShotMissPenalty = -0.05f;
+    private float ShotMissPenalty = -0.2f;
 
     [SerializeField] private float timeBetweenShootingAtDroid;
     private List<GameObject> obstacles = new List<GameObject>();
@@ -156,10 +157,10 @@ public class DroidAgent : Agent
 
         target.transform.localPosition = new Vector3(0f, 0f, 5f);
         target.transform.localPosition = new Vector3(Random.Range(-randomRange, randomRange), 0f, Random.Range(-randomRange, randomRange));
-        if (this.CurrentStep > 500000 * 4)
+        if (this.CurrentStep > 500000 * 4 || testing)
         {
             target.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(new Vector3(Random.Range(-randomRange, randomRange), 0f, Random.Range(-randomRange, randomRange)), maxTargetSpeed);
-            ShotMissPenalty = -0.1f;
+            //ShotMissPenalty = -0.1f;
             // HitByPlayerBolt = -1f;
             // ShieldSuccessReward = 5f;
         }
@@ -174,7 +175,7 @@ public class DroidAgent : Agent
         for (int i = 0; i < maxObstacle + (int)Mathf.Floor(this.CurrentStep / 1000000); i++)
         {
             var newObstacle = Instantiate(obstacle, this.transform.parent.localPosition + new Vector3(Random.Range(-randomRange, randomRange), 0f, Random.Range(-randomRange, randomRange)), Quaternion.identity);
-            if (this.CurrentStep > 500000 * 6)
+            if (this.CurrentStep > 500000 * 6 || testing)
             {
                 newObstacle.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(new Vector3(Random.Range(-randomRange, randomRange), 0f, Random.Range(-randomRange, randomRange)), maxObstacleSpeed);
             }
