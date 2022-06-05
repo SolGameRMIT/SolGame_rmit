@@ -68,13 +68,13 @@ public class ProceduralGeneration : MonoBehaviour
     private float emptyZ = 1f;
 
     //RNG values
-    private int emptySpace = 65;
-    private int planetSpawn = 10;
-    private int shipSpawn = 5;
-    private int asteroidFieldSpawn = 5;
-    private int asteroidSpawn = 20;
-    private int sateliteSpawn = 5;
-    private int powerupSpawn = 10;
+    private int emptySpace = 100;
+    private int planetSpawn = 0;
+    private int shipSpawn = 0;
+    private int asteroidFieldSpawn = 0;
+    private int asteroidSpawn = 0;
+    private int sateliteSpawn = 0;
+    private int powerupSpawn = 0;
 
     private int planetRNG;
 

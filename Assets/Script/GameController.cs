@@ -16,8 +16,8 @@ public class GameController : MonoBehaviour
     public PlayerController shipController;
 
 
-    int litmitDroid = 5;
-    int maxDroid = 1;
+    int litmitDroid = 0;
+    int maxDroid = 0;
     float DroidSpeed = 0.01f;
 
     int level = 1;
@@ -95,7 +95,7 @@ public class GameController : MonoBehaviour
     IEnumerator spawnDroid()
     {
         var count = 0;
-        while (true)
+        while (false)
         {
             if (isGameOver)
             {
@@ -209,7 +209,7 @@ public class GameController : MonoBehaviour
         SmallShip.text = "Small Ship: "+ FindObjectsOfType<Boid_>().Length.ToString();
     }
 
-    void resetGame()
+    public void resetGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

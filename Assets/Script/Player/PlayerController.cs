@@ -2,21 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Unity.MLAgents;
+using Unity.MLAgents.Sensors;
+using Unity.MLAgents.Actuators;
+
+
 [System.Serializable]
 public class Boundary
 {
     public float xMin, xMax, zMin, zMax;
 }
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Agent
 {
+
+    // Store a reference to the Rigidbody2D component required to use 2D Physics.
+    private Rigidbody2D rb2d;
+    private SpriteRenderer sr;
+
+    private Vector3 birdStartPos;
+
+
     Rigidbody m_Rigidbody;
-    Spanwer m_Spanwer;
+    public Spanwer m_Spanwer;
     private float nextFile;
     public float fileRate;
 
     GameObject shot;
-    GameController gameController;
     int weapon;
     public GameObject weaponType1;
     public GameObject weaponType2;
@@ -53,6 +65,11 @@ public class PlayerController : MonoBehaviour
     float acceleration;
     Vector3 velocity;
 
+    // Reinforcement Learning
+    private int boidsIced = 0;
+    private int boidsToIce;
+    private Vector3 startPos;
+
     //audio sources
     public AudioClip bolt;
     public AudioClip blast;
@@ -71,15 +88,20 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Application.runInBackground = true;
+
+        MaxStep = 2000;
+
         //Fetch the Rigidbody component you attach from your GameObject
-        m_Rigidbody = GetComponent<Rigidbody>();
+        m_Rigidbody = gameObject.GetComponent<Rigidbody>();
 
-        var _gameController = GameObject.Find("GameController");
-        if (_gameController != null)
-        {
-            gameController = _gameController.GetComponent<GameController>();
-        }
-
+        // Reinforcement Learning
+        Debug.Log("Starting location: " + transform.position);
+        startPos = transform.position;
+        boundary.xMin += startPos.x;
+        boundary.xMax += startPos.x;
+        boundary.zMin += startPos.z;
+        boundary.zMax += startPos.z;
 
         //set the initial health of the ship
         currentHealth = Maximumhealth;
@@ -88,115 +110,101 @@ public class PlayerController : MonoBehaviour
         shot = weaponType1;
         weapon = 1;
 
-        //audio sources
-        Bolt = AddAudio(false, false, 0.4f);
-        Blast = AddAudio(false, false, 0.4f);
-        Swirl = AddAudio(false, false, 0.4f);
-        Damage = AddAudio(false, false, 0.4f);
-        IncreaseHealth = AddAudio(false, false, 0.4f);
-        Explosion = AddAudio(false, false, 0.4f);
-
-        Bolt.clip = bolt;
-        Blast.clip = blast;
-        Swirl.clip = swirl;
-        Damage.clip = damage;
-        IncreaseHealth.clip = increaseHealth;
-        Explosion.clip = explosion;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnEpisodeBegin()
     {
-        // Mouse inputs
-        getMouseAngle();
-        if (Input.GetButton("Fire1") && Time.time > nextFile)
-        {
-            nextFile = Time.time + fileRate;
-            //Debug.Log("father shotSpawn.transform.position " + shotSpawn.transform.position);
-            GameObject temp = Instantiate(shot, shotSpawn.transform.position, Quaternion.Euler(0f, mouseAngle, transform.rotation.z));
-            Destroy(temp, 10f);
-            playShot();
-        }
-
-        //Keyboard inputs
-        if (Input.GetKey(KeyCode.R) && gameController.canSaveSmallShip)
-        {
-            gameController.canSaveSmallShip = false;
-            m_Spanwer.isMoveForwarTarget = true;
-        }
-
-
-        //Keyboard inputs
-        if (Input.GetKey(KeyCode.Space) && Time.time > nextFile)
-        {
-            nextFile = Time.time + fileRate;
-            //Debug.Log("father shotSpawn.transform.position " + shotSpawn.transform.position);
-            GameObject temp = Instantiate(shot, shotSpawn.transform.position, Quaternion.AngleAxis(angle * Mathf.Rad2Deg - 90, Vector3.down));
-            Destroy(temp, 5f);
-            playShot();
-        }
-
-        //invincibility checks
-        if (Invincible)
-        {
-            InvincibleTime -= Time.deltaTime;
-            if(InvincibleTime < 0)
-            {
-                //Debug.Log("End Invincibility");
-                Invincible = false;
-            }
-        }
-    }
-
-    void FixedUpdate()
-    {
-
-        // Get our controller input and translate it to thrust / rotation           
-        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && acceleration < maxThrust)
-            acceleration -= thrust;
-
-        if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && acceleration > -maxThrust)
-            acceleration += thrust;
         
-        if ((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)))
-            angle -= rotationSpeed;
+        Debug.Log("WE BEGINNING!!!");
+        Debug.Log(startPos);
+        m_Rigidbody.MovePosition(startPos);
+        gameObject.transform.position = startPos;
+        if (m_Spanwer != null)
+            m_Spanwer.reBoid();
+        m_Rigidbody.velocity = Vector3.zero; 
 
-        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)))
-            angle += rotationSpeed;
+    }
 
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        //Debug.Log("WE COLLECTING OBSERVATIONS!!!");
+        /*if (m_Spanwer != null && m_Spanwer.boidsList != null)
+            foreach (GameObject boid in m_Spanwer.boidsList)
+            {
+                if (boid != null)
+                    sensor.AddObservation(boid.transform.position);
+            }*/
+        if (m_Rigidbody != null)
+        {
+            sensor.AddObservation(m_Rigidbody.transform.position);
+            sensor.AddObservation(velocity);
+        }
+    }
+
+
+    public override void OnActionReceived(ActionBuffers actionBuffers)
+    {
+        int action = actionBuffers.DiscreteActions[0];
+
+       // Debug.Log(actionBuffers);
+
+        float speed = 0.005f;
+        float angleSpeed = 0.05f;
+
+        float moveHorizontal = 0.0f;
+        float moveVertical = 0.0f;
+
+        switch (action)
+        {
+            case 0:
+                break;
+            case 1:
+                moveHorizontal = 1.0f;
+                break;
+            case 2:
+                moveVertical = -1.0f;
+                break;
+            case 3:
+                moveVertical = 1.0f;
+                break;
+        }
+
+        //Debug.Log(action);
+
+
+        angle += moveVertical*angleSpeed;
+
+        if (acceleration > maxThrust)
+            acceleration = maxThrust;
 
         // Physics calculation
-        velocity.x += acceleration * Mathf.Cos(angle);
-        velocity.y += acceleration * Mathf.Sin(angle);
+        velocity.x += moveHorizontal * speed * Mathf.Cos(angle);
+        velocity.y += moveHorizontal * speed * Mathf.Sin(angle);
         velocity *= spaceDrag;
         acceleration *= acceleratorCooloff;
+        m_Rigidbody.velocity = Vector3.ClampMagnitude(GetComponent<Rigidbody>().velocity, maxThrust);
 
-
-        GetComponent<Rigidbody>().MovePosition(new Vector3(
+        m_Rigidbody.MovePosition(new Vector3(
             Mathf.Clamp(m_Rigidbody.position.x + velocity.x, boundary.xMin, boundary.xMax),
             0f,
             Mathf.Clamp(m_Rigidbody.position.z + velocity.y, boundary.zMin, boundary.zMax)
             ));
-        GetComponent<Rigidbody>().rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg + 90, Vector3.down);
+        m_Rigidbody.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg + 90, Vector3.down);
 
-        //check if ship is dead
-        if (Health <= 0)
-        {
-            killShip();
-            Destroy(gameObject);
-        }
+
+       // Debug.Log("WE SHMOOVIN!!!");
     }
+
 
     public void setBoidsSpawner(Spanwer spanwer)
     {
         this.m_Spanwer = spanwer;
     }
 
-    private void OnDestroy()
+    void Update()
     {
-        gameController.GameOver();
+        GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(GetComponent<Rigidbody>().velocity, maxThrust);
     }
-
 
     // Health related functions
     public void ChangeHealth(int amount)
@@ -296,10 +304,24 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name.Contains("Boid") && m_Spanwer.isMoveForwarTarget)
+        if (other.name.Contains("Boid"))
         {
             Destroy(other.gameObject);
-            gameController.addScore(1);
+            AddReward(3.0f);
+            boidsIced++;
+
+            if (m_Spanwer != null &&  m_Spanwer.getBoidCount() - boidsIced < 16)
+            {
+
+                Debug.Log("NEW EPISODE");
+                EndEpisode();
+            }
+
+        }
+        else if(other.name.Contains("Border"))
+        {
+            AddReward(-1.0f);
+            EndEpisode();
         }
     }
 
