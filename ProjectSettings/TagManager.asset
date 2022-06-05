@@ -4,6 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Agent
+  - Wall
+  - Boid
+  - RaceB
+  - Bullets
+  - RaceA
   - enemy
   layers:
   - Default
