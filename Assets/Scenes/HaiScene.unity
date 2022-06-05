@@ -1490,7 +1490,7 @@ PrefabInstance:
     - target: {fileID: 564157398741119265, guid: a8291d531bf2bc04fa1ecbb99d5057d2, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: dd67d49a01ce84648bf085fd5478875e, type: 3}
     - target: {fileID: 648196561592111096, guid: a8291d531bf2bc04fa1ecbb99d5057d2, type: 3}
       propertyPath: target
       value: 
@@ -1499,6 +1499,10 @@ PrefabInstance:
       propertyPath: obstacle
       value: 
       objectReference: {fileID: 1785722350}
+    - target: {fileID: 648196561592111096, guid: a8291d531bf2bc04fa1ecbb99d5057d2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 648196561592111096, guid: a8291d531bf2bc04fa1ecbb99d5057d2, type: 3}
       propertyPath: wallFolder
       value: 
