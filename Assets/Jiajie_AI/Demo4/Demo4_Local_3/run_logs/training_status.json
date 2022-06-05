@@ -2,40 +2,58 @@
     "BehaviorDemo4": {
         "checkpoints": [
             {
-                "steps": 1799,
-                "file_path": "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1799.onnx",
-                "reward": null,
-                "creation_time": 1654391554.9243677,
+                "steps": 999991,
+                "file_path": "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-999991.onnx",
+                "reward": 0.1633338729540507,
+                "creation_time": 1654407580.4325862,
                 "auxillary_file_paths": [
-                    "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1799.pt"
+                    "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-999991.pt"
                 ]
             },
             {
-                "steps": 499972,
-                "file_path": "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-499972.onnx",
-                "reward": -2.822000026702881,
-                "creation_time": 1654399168.8419752,
+                "steps": 1036683,
+                "file_path": "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1036683.onnx",
+                "reward": null,
+                "creation_time": 1654408091.1638975,
                 "auxillary_file_paths": [
-                    "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-499972.pt"
+                    "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1036683.pt"
                 ]
             },
             {
-                "steps": 616714,
-                "file_path": "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-616714.onnx",
+                "steps": 1050999,
+                "file_path": "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1050999.onnx",
                 "reward": null,
-                "creation_time": 1654400931.0255086,
+                "creation_time": 1654408330.6536686,
                 "auxillary_file_paths": [
-                    "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-616714.pt"
+                    "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1050999.pt"
+                ]
+            },
+            {
+                "steps": 1499987,
+                "file_path": "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1499987.onnx",
+                "reward": -0.4363996863365173,
+                "creation_time": 1654414542.1490595,
+                "auxillary_file_paths": [
+                    "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1499987.pt"
+                ]
+            },
+            {
+                "steps": 1519334,
+                "file_path": "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1519334.onnx",
+                "reward": null,
+                "creation_time": 1654414806.0042992,
+                "auxillary_file_paths": [
+                    "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1519334.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 616714,
+            "steps": 1519334,
             "file_path": "results/Demo4_Local_3/BehaviorDemo4.onnx",
             "reward": null,
-            "creation_time": 1654400931.0255086,
+            "creation_time": 1654414806.0042992,
             "auxillary_file_paths": [
-                "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-616714.pt"
+                "results/Demo4_Local_3/BehaviorDemo4/BehaviorDemo4-1519334.pt"
             ]
         }
     },

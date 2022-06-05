@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController_Demo4 : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class GameController_Demo4 : MonoBehaviour
     GameObject RaceB1;
     GameObject PlayerAgent;
     GameObject Court;
+    public Text TimeLeft;
+    public float timeSpend = 0;
     List<GameObject> BoidList = new List<GameObject>();
     List<GameObject> RaceAList = new List<GameObject>();
     // Start is called before the first frame update
@@ -79,11 +82,14 @@ public class GameController_Demo4 : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        timeSpend += Time.deltaTime;
+        var temp = (int)(15 - timeSpend);
+        TimeLeft.text = string.Format("Time:{0}",temp);
     }
 
     public void GameReset()
     {
+        timeSpend = 0;
         box1.transform.localPosition = new Vector3(Random.Range(-8, -2), 1, Random.Range(-6, 6));
         box2.transform.localPosition = new Vector3(Random.Range(2, 8), 1, Random.Range(-6, 6));
         BoidList.ForEach(target => target.GetComponent<Boid_Demo4>().GameReset());
