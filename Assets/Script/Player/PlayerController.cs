@@ -21,8 +21,6 @@ public class PlayerController : Agent
     private SpriteRenderer sr;
 
     private Vector3 birdStartPos;
-
-
     Rigidbody m_Rigidbody;
     public Spanwer m_Spanwer;
     private float nextFile;
@@ -37,6 +35,17 @@ public class PlayerController : Agent
     public Boundary boundary;
 
     private float mouseAngle;
+
+    // Reinforcement Learning variables
+    private GameObject[] targets;
+    private GameObject closestTarget;
+    //private GameObject secondTarget;
+    public int SpawnRate;
+    private int powerupsIced = 0;
+    public int powerupsToIce;
+    private Vector3 startPos;
+    public GameObject upgrade;
+
 
     //Death explosion
     public GameObject deathExplosion;
@@ -53,6 +62,7 @@ public class PlayerController : Agent
     public bool Invincibility { get { return Invincible;  } }
     public int Weapon { get { return weapon; } }
 
+
     //Thrust and movement related variables
     float thrust = 0.001f; // How long we have to hold to get to max speed (higher quicker)
     float maxThrust = 0.01f; // Max speed
@@ -65,10 +75,7 @@ public class PlayerController : Agent
     float acceleration;
     Vector3 velocity;
 
-    // Reinforcement Learning
-    private int boidsIced = 0;
-    private int boidsToIce;
-    private Vector3 startPos;
+    
 
     //audio sources
     public AudioClip bolt;
@@ -88,8 +95,8 @@ public class PlayerController : Agent
     // Start is called before the first frame update
     void Start()
     {
+        // enable external MLagents
         Application.runInBackground = true;
-
         MaxStep = 2000;
 
         //Fetch the Rigidbody component you attach from your GameObject
@@ -103,61 +110,112 @@ public class PlayerController : Agent
         boundary.zMin += startPos.z;
         boundary.zMax += startPos.z;
 
+
         //set the initial health of the ship
         currentHealth = Maximumhealth;
 
         //default weapon setup
         shot = weaponType1;
         weapon = 1;
-
     }
 
     public override void OnEpisodeBegin()
     {
         
         Debug.Log("WE BEGINNING!!!");
-        Debug.Log(startPos);
+        //Debug.Log(startPos);
+        
+        // Agent setup
         m_Rigidbody.MovePosition(startPos);
         gameObject.transform.position = startPos;
         if (m_Spanwer != null)
             m_Spanwer.reBoid();
-        m_Rigidbody.velocity = Vector3.zero; 
+        m_Rigidbody.velocity = Vector3.zero;
+
+        // destroy all targets
+        DestroyAllObjects();
+
+        // set up targets 
+        //MonoSub.Instantiate(upgrade, new Vector3(startPos.x + Random.Range(-4.0f,+4.0f), startPos.y, (startPos.z + Random.Range(-4.0f, +4.0f))), gameObject.transform.rotation);
+        
+        // Initial Training
+        //MonoSub.Instantiate(upgrade, new Vector3(startPos.x, startPos.y, (startPos.z + 5.0f)), gameObject.transform.rotation);
+
+        // Spawn targets around the field
+        //spawnTargets();
+
+        // Find the targets and place them into an array
+        //this.targets = GameObject.FindGameObjectsWithTag("target");
+
+        // Find the closest target and set this as the goal
+        //FindClosestTarget(this.targets);
+    }
+
+    public void FindClosestTarget(GameObject[] targets)
+    {
+        if (targets.Length > 0)
+        {
+            GameObject closest = null;
+            float distance = 1000000;
+            float distanceTo = 0;
+            foreach (GameObject target in targets)
+            {
+                distance = Vector3.Distance(m_Rigidbody.transform.position, target.transform.position); 
+                if(distanceTo < distance)
+                {
+                    closest = target;
+                    distanceTo = distance;
+                    Debug.Log("Found a close target");
+                }
+            }
+            if (closest != null)
+                this.closestTarget = closest;
+            else
+                Debug.Log("No target was found close to the agent");
+        }
+    }
+
+    void DestroyAllObjects()
+    {
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Target");
+
+        for (var i = 0; i < gameObjects.Length; i++)
+        {
+            Destroy(gameObjects[i]);
+        }
+    }
+
+    public void SpawnTargets()
+    {
 
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        //Debug.Log("WE COLLECTING OBSERVATIONS!!!");
-        /*if (m_Spanwer != null && m_Spanwer.boidsList != null)
-            foreach (GameObject boid in m_Spanwer.boidsList)
-            {
-                if (boid != null)
-                    sensor.AddObservation(boid.transform.position);
-            }*/
+        // Observe the velocity, and position of the agent
         if (m_Rigidbody != null)
         {
             sensor.AddObservation(m_Rigidbody.transform.position);
             sensor.AddObservation(velocity);
+            //if(closestTarget != null)
+                //sensor.AddObservation(Vector3.Distance(m_Rigidbody.transform.position, closestTarget.transform.position));
         }
     }
 
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
+        // Variables
+        // our descrete actions array
         int action = actionBuffers.DiscreteActions[0];
-
-       // Debug.Log(actionBuffers);
-
         float speed = 0.005f;
         float angleSpeed = 0.05f;
-
         float moveHorizontal = 0.0f;
         float moveVertical = 0.0f;
-
+        
+        // Discrete Actions (reverse, forward, left rotate, right rotate)
         switch (action)
         {
-            case 0:
-                break;
             case 1:
                 moveHorizontal = 1.0f;
                 break;
@@ -167,11 +225,11 @@ public class PlayerController : Agent
             case 3:
                 moveVertical = 1.0f;
                 break;
+            case 4:
+                break;
         }
 
-        //Debug.Log(action);
-
-
+        // Angle and accelation calculations
         angle += moveVertical*angleSpeed;
 
         if (acceleration > maxThrust)
@@ -182,8 +240,9 @@ public class PlayerController : Agent
         velocity.y += moveHorizontal * speed * Mathf.Sin(angle);
         velocity *= spaceDrag;
         acceleration *= acceleratorCooloff;
-        m_Rigidbody.velocity = Vector3.ClampMagnitude(GetComponent<Rigidbody>().velocity, maxThrust);
 
+        // Apply changes to the model
+        m_Rigidbody.velocity = Vector3.ClampMagnitude(GetComponent<Rigidbody>().velocity, maxThrust);
         m_Rigidbody.MovePosition(new Vector3(
             Mathf.Clamp(m_Rigidbody.position.x + velocity.x, boundary.xMin, boundary.xMax),
             0f,
@@ -191,8 +250,6 @@ public class PlayerController : Agent
             ));
         m_Rigidbody.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg + 90, Vector3.down);
 
-
-       // Debug.Log("WE SHMOOVIN!!!");
     }
 
 
@@ -304,23 +361,30 @@ public class PlayerController : Agent
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.name);
         if (other.name.Contains("Boid"))
         {
             Destroy(other.gameObject);
             AddReward(3.0f);
-            boidsIced++;
-
-            if (m_Spanwer != null &&  m_Spanwer.getBoidCount() - boidsIced < 16)
+            powerupsIced++;
+            Debug.Log("ICED THAT TARGET BOII");     
+            if(powerupsIced >= powerupsToIce)
             {
-
-                Debug.Log("NEW EPISODE");
+                Debug.Log("WE OUT OF TARGETS BOSS MAN");
+                AddReward(6.0f);
+                powerupsIced = 0;
                 EndEpisode();
             }
-
+            /**
+            if(GameObject.FindGameObjectsWithTag("target").Length >= 0)
+            {
+                AddReward(6.0f);
+                EndEpisode(); 
+            }**/
         }
         else if(other.name.Contains("Border"))
         {
-            AddReward(-1.0f);
+            AddReward(-3.0f);
             EndEpisode();
         }
     }

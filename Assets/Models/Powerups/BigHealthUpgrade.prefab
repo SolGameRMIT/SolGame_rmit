@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6850078094495055471}
   m_Layer: 0
   m_Name: Particle System
-  m_TagString: Untagged
+  m_TagString: boid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4859,7 +4859,7 @@ GameObject:
   - component: {fileID: 8177111029580297099}
   m_Layer: 0
   m_Name: InnerPowerUp
-  m_TagString: Untagged
+  m_TagString: boid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4983,7 +4983,7 @@ GameObject:
   - component: {fileID: 3075295040556067860}
   m_Layer: 0
   m_Name: health
-  m_TagString: Untagged
+  m_TagString: boid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5121,7 +5121,7 @@ GameObject:
   - component: {fileID: 400008}
   m_Layer: 0
   m_Name: BigHealthUpgrade
-  m_TagString: Untagged
+  m_TagString: boid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5160,7 +5160,7 @@ GameObject:
   - component: {fileID: 4181745283095594366}
   m_Layer: 0
   m_Name: PowerUp
-  m_TagString: Untagged
+  m_TagString: boid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

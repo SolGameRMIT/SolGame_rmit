@@ -1,0 +1,29 @@
+{
+    "ShipBehaviour": {
+        "checkpoints": [
+            {
+                "steps": 300060,
+                "file_path": "results\\3\\ShipBehaviour\\ShipBehaviour-300060.onnx",
+                "reward": 1.5,
+                "creation_time": 1654433933.1671305,
+                "auxillary_file_paths": [
+                    "results\\3\\ShipBehaviour\\ShipBehaviour-300060.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 300060,
+            "file_path": "results\\3\\ShipBehaviour.onnx",
+            "reward": 1.5,
+            "creation_time": 1654433933.1671305,
+            "auxillary_file_paths": [
+                "results\\3\\ShipBehaviour\\ShipBehaviour-300060.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

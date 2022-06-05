@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4384885150699026728}
   m_Layer: 6
   m_Name: Boid
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5892995979193577986}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.0604882, y: 0, z: 0.14552313}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 3366109640655203893}
   m_Father: {fileID: 0}
@@ -182,8 +182,10 @@ MonoBehaviour:
   CohesionWeights: 1
   AlignmentWeights: 4
   ObstaclesWeights: 5
+  StayInRadiusWeight: 3
   MoveForwarTargetWeights: 4
   SmoothTime: 0.5
+  radius: 30
 --- !u!1001 &3366109640655107125
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -202,6 +204,10 @@ PrefabInstance:
     - target: {fileID: 178266, guid: c8b6a28265cff5e4cb4355af1a24cfba, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 178266, guid: c8b6a28265cff5e4cb4355af1a24cfba, type: 3}
+      propertyPath: m_TagString
+      value: Target
       objectReference: {fileID: 0}
     - target: {fileID: 432640, guid: c8b6a28265cff5e4cb4355af1a24cfba, type: 3}
       propertyPath: m_RootOrder
